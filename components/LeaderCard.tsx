@@ -9,6 +9,7 @@ interface LeaderCardProps {
   leader: Leader;
   onPress?: (leader: Leader) => void;
   animatedValue?: Animated.Value;
+  fullWidth?: boolean;
 }
 
 const attributeIcons = {
@@ -19,9 +20,9 @@ const attributeIcons = {
   tattoo: Zap,
 };
 
-export default function LeaderCard({ leader, onPress, animatedValue }: LeaderCardProps) {
+export default function LeaderCard({ leader, onPress, animatedValue, fullWidth = false }: LeaderCardProps) {
   const { width } = useWindowDimensions();
-  const cardWidth = (width - 48) / 2;
+  const cardWidth = fullWidth ? width - 32 : (width - 48) / 2;
   
   const animatedStyle = animatedValue ? {
     opacity: animatedValue,
@@ -42,7 +43,7 @@ export default function LeaderCard({ leader, onPress, animatedValue }: LeaderCar
       >
         <View style={[styles.imageContainer, { height: cardWidth * 0.8 }]}>
           <Image
-            source={{ uri: leader.image }}
+            source={leader.image}
             style={styles.image}
             contentFit="cover"
             placeholder="https://via.placeholder.com/120x120/333333/666666?text=Leader"

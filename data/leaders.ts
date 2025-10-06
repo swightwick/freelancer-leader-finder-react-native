@@ -3,7 +3,7 @@ import { Leader } from '@/types/leader';
 export const leaders: Leader[] = [
   {
     "name": "Patricia",
-    "image": "@/assets/images/leader-BLACK_EGN_Patricia.png",
+    "image": require("@/assets/images/leader-BLACK_EGN_Patricia.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -15,7 +15,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Bradley",
-    "image": "@/assets/images/leader-BLACK_EGN_Bradley.png",
+    "image": require("@/assets/images/leader-BLACK_EGN_Bradley.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -27,7 +27,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Cathy",
-    "image": "@/assets/images/leader-BLONDE_EGN_Cathy.png",
+    "image": require("@/assets/images/leader-BLONDE_EGN_Cathy.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -39,7 +39,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Anders",
-    "image": "@/assets/images/leader-BLONDE_EGN_Anders.png",
+    "image": require("@/assets/images/leader-BLONDE_EGN_Anders.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -51,7 +51,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Bianca",
-    "image": "@/assets/images/leader-BROWN_EGN_Bianca.png",
+    "image": require("@/assets/images/leader-BROWN_EGN_Bianca.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -63,7 +63,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Keenan",
-    "image": "@/assets/images/leader-BROWN_EGN_Keenan.png",
+    "image": require("@/assets/images/leader-BROWN_EGN_Keenan.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -75,7 +75,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Deri",
-    "image": "@/assets/images/leader-GREY_EGN_Deri.png",
+    "image": require("@/assets/images/leader-GREY_EGN_Deri.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -87,7 +87,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Riko",
-    "image": "@/assets/images/leader-GREY_EGN_Riko.png",
+    "image": require("@/assets/images/leader-GREY_EGN_Riko.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -99,7 +99,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Yvonne",
-    "image": "@/assets/images/leader-BALD_EGN_Yvonne.png",
+    "image": require("@/assets/images/leader-BALD_EGN_Yvonne.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -111,7 +111,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Hugo",
-    "image": "@/assets/images/leader-BALD_EGN_Hugo.png",
+    "image": require("@/assets/images/leader-BALD_EGN_Hugo.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -123,7 +123,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Gloria",
-    "image": "@/assets/images/leader-RED_EGN_Gloria.png",
+    "image": require("@/assets/images/leader-RED_EGN_Gloria.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -135,7 +135,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Ronnie",
-    "image": "@/assets/images/leader-RED_EGN_Ronnie.png",
+    "image": require("@/assets/images/leader-RED_EGN_Ronnie.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -147,7 +147,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Helen",
-    "image": "@/assets/images/leader-BLACK_EHN_Helen.png",
+    "image": require("@/assets/images/leader-BLACK_EHN_Helen.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -159,7 +159,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Paul",
-    "image": "@/assets/images/leader-BLACK_EHN_Paul.png",
+    "image": require("@/assets/images/leader-BLACK_EHN_Paul.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -171,7 +171,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Tuesday",
-    "image": "@/assets/images/leader-BLONDE_EHN_Tuesday.png",
+    "image": require("@/assets/images/leader-BLONDE_EHN_Tuesday.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -183,7 +183,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Roland",
-    "image": "@/assets/images/leader-BLONDE_EHN_Roland.png",
+    "image": require("@/assets/images/leader-BLONDE_EHN_Roland.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -195,7 +195,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Cora",
-    "image": "@/assets/images/leader-BROWN_EHN_Cora.png",
+    "image": require("@/assets/images/leader-BROWN_EHN_Cora.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -207,7 +207,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Hiram",
-    "image": "@/assets/images/leader-BROWN_EHN_Hiram.png",
+    "image": require("@/assets/images/leader-BROWN_EHN_Hiram.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -219,7 +219,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Tomoko",
-    "image": "@/assets/images/leader-GREY_EHN_Tomoko.png",
+    "image": require("@/assets/images/leader-GREY_EHN_Tomoko.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -231,7 +231,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Arun",
-    "image": "@/assets/images/leader-GREY_EHN_Arun.png",
+    "image": require("@/assets/images/leader-GREY_EHN_Arun.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -243,7 +243,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Sloan",
-    "image": "@/assets/images/leader-BALD_EHN_Sloan.png",
+    "image": require("@/assets/images/leader-BALD_EHN_Sloan.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -255,7 +255,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Mitchell",
-    "image": "@/assets/images/leader-BALD_EHN_Mitchell.png",
+    "image": require("@/assets/images/leader-BALD_EHN_Mitchell.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -267,7 +267,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Rochelle",
-    "image": "@/assets/images/leader-RED_EHN_Rochelle.png",
+    "image": require("@/assets/images/leader-RED_EHN_Rochelle.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -279,7 +279,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Charles",
-    "image": "@/assets/images/leader-RED_EHN_Charles.png",
+    "image": require("@/assets/images/leader-RED_EHN_Charles.png"),
     "attributes": {
       "earrings": true,
       "glasses": false,
@@ -291,7 +291,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Fiona",
-    "image": "@/assets/images/leader-BLACK_GHT_Fiona.png",
+    "image": require("@/assets/images/leader-BLACK_GHT_Fiona.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -303,7 +303,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Steven",
-    "image": "@/assets/images/leader-BLACK_GHT_Steven.png",
+    "image": require("@/assets/images/leader-BLACK_GHT_Steven.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -315,7 +315,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Sophie",
-    "image": "@/assets/images/leader-BLONDE_GHT_Sophie.png",
+    "image": require("@/assets/images/leader-BLONDE_GHT_Sophie.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -327,7 +327,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Curtis",
-    "image": "@/assets/images/leader-BLONDE_GHT_Curtis.png",
+    "image": require("@/assets/images/leader-BLONDE_GHT_Curtis.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -339,7 +339,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Felicity",
-    "image": "@/assets/images/leader-BROWN_GHT_Felicity.png",
+    "image": require("@/assets/images/leader-BROWN_GHT_Felicity.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -351,7 +351,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Antonio",
-    "image": "@/assets/images/leader-BROWN_GHT_Antonio.png",
+    "image": require("@/assets/images/leader-BROWN_GHT_Antonio.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -363,7 +363,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Joyce",
-    "image": "@/assets/images/leader-GREY_GHT_Joyce.png",
+    "image": require("@/assets/images/leader-GREY_GHT_Joyce.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -375,7 +375,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Gary",
-    "image": "@/assets/images/leader-GREY_GHT_Gary.png",
+    "image": require("@/assets/images/leader-GREY_GHT_Gary.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -387,7 +387,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Kirsten",
-    "image": "@/assets/images/leader-BALD_GHT_Kirsten.png",
+    "image": require("@/assets/images/leader-BALD_GHT_Kirsten.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -399,7 +399,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Melvin",
-    "image": "@/assets/images/leader-BALD_GHT_Melvin.png",
+    "image": require("@/assets/images/leader-BALD_GHT_Melvin.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -411,7 +411,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Willow",
-    "image": "@/assets/images/leader-RED_GHT_Willow.png",
+    "image": require("@/assets/images/leader-RED_GHT_Willow.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -423,7 +423,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Chester",
-    "image": "@/assets/images/leader-RED_GHT_Chester.png",
+    "image": require("@/assets/images/leader-RED_GHT_Chester.png"),
     "attributes": {
       "earrings": false,
       "glasses": true,
@@ -435,7 +435,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Lilly",
-    "image": "@/assets/images/leader-BLACK_HNT_Lilly.png",
+    "image": require("@/assets/images/leader-BLACK_HNT_Lilly.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -447,7 +447,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Ibrahim",
-    "image": "@/assets/images/leader-BLACK_HNT_Ibrahim.png",
+    "image": require("@/assets/images/leader-BLACK_HNT_Ibrahim.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -459,7 +459,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Mimi",
-    "image": "@/assets/images/leader-BLONDE_HNT_Mimi.png",
+    "image": require("@/assets/images/leader-BLONDE_HNT_Mimi.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -471,7 +471,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Jefferson",
-    "image": "@/assets/images/leader-BLONDE_HNT_Jefferson.png",
+    "image": require("@/assets/images/leader-BLONDE_HNT_Jefferson.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -483,7 +483,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Tasha",
-    "image": "@/assets/images/leader-BROWN_HNT_Tasha.png",
+    "image": require("@/assets/images/leader-BROWN_HNT_Tasha.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -495,7 +495,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Zhao",
-    "image": "@/assets/images/leader-BROWN_HNT_Zhao.png",
+    "image": require("@/assets/images/leader-BROWN_HNT_Zhao.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -507,7 +507,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Mariam",
-    "image": "@/assets/images/leader-GREY_HNT_Mariam.png",
+    "image": require("@/assets/images/leader-GREY_HNT_Mariam.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -519,7 +519,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Vincent",
-    "image": "@/assets/images/leader-GREY_HNT_Vincent.png",
+    "image": require("@/assets/images/leader-GREY_HNT_Vincent.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -531,7 +531,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Siabhan",
-    "image": "@/assets/images/leader-BALD_HNT_Siabhan.png",
+    "image": require("@/assets/images/leader-BALD_HNT_Siabhan.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -543,7 +543,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Murray",
-    "image": "@/assets/images/leader-BALD_HNT_Murray.png",
+    "image": require("@/assets/images/leader-BALD_HNT_Murray.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -555,7 +555,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Alexandra",
-    "image": "@/assets/images/leader-RED_HNT_Alexandra.png",
+    "image": require("@/assets/images/leader-RED_HNT_Alexandra.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -567,7 +567,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Mack",
-    "image": "@/assets/images/leader-RED_HNT_Mack.png",
+    "image": require("@/assets/images/leader-RED_HNT_Mack.png"),
     "attributes": {
       "earrings": false,
       "glasses": false,
@@ -579,7 +579,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Achieng",
-    "image": "@/assets/images/leader-BLACK_EGHT_Achieng.png",
+    "image": require("@/assets/images/leader-BLACK_EGHT_Achieng.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -591,7 +591,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Rajat",
-    "image": "@/assets/images/leader-BLACK_EGHT_Rajat.png",
+    "image": require("@/assets/images/leader-BLACK_EGHT_Rajat.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -603,7 +603,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Antoinette",
-    "image": "@/assets/images/leader-BLONDE_EGHT_Antoinette.png",
+    "image": require("@/assets/images/leader-BLONDE_EGHT_Antoinette.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -615,7 +615,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Howard",
-    "image": "@/assets/images/leader-BLONDE_EGHT_Howard.png",
+    "image": require("@/assets/images/leader-BLONDE_EGHT_Howard.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -627,7 +627,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Dara",
-    "image": "@/assets/images/leader-BROWN_EGHT_Dara.png",
+    "image": require("@/assets/images/leader-BROWN_EGHT_Dara.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -639,7 +639,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Rodrigo",
-    "image": "@/assets/images/leader-BROWN_EGHT_Rodrigo.png",
+    "image": require("@/assets/images/leader-BROWN_EGHT_Rodrigo.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -651,7 +651,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Lisa",
-    "image": "@/assets/images/leader-GREY_EGHT_Lisa.png",
+    "image": require("@/assets/images/leader-GREY_EGHT_Lisa.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -663,7 +663,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Malcolm",
-    "image": "@/assets/images/leader-GREY_EGHT_Malcolm.png",
+    "image": require("@/assets/images/leader-GREY_EGHT_Malcolm.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -675,7 +675,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Angel",
-    "image": "@/assets/images/leader-BALD_EGHT_Angel.png",
+    "image": require("@/assets/images/leader-BALD_EGHT_Angel.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -687,7 +687,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Gonzales",
-    "image": "@/assets/images/leader-BALD_EGHT_Gonzales.png",
+    "image": require("@/assets/images/leader-BALD_EGHT_Gonzales.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -699,7 +699,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Gabrielle",
-    "image": "@/assets/images/leader-RED_EGHT_Gabrielle.png",
+    "image": require("@/assets/images/leader-RED_EGHT_Gabrielle.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -711,7 +711,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Nathaniel",
-    "image": "@/assets/images/leader-RED_EGHT_Nathaniel.png",
+    "image": require("@/assets/images/leader-RED_EGHT_Nathaniel.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -723,7 +723,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Navaeh",
-    "image": "@/assets/images/leader-BLACK_EGNT_Navaeh.png",
+    "image": require("@/assets/images/leader-BLACK_EGNT_Navaeh.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -735,7 +735,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Sidney",
-    "image": "@/assets/images/leader-BLACK_EGNT_Sidney.png",
+    "image": require("@/assets/images/leader-BLACK_EGNT_Sidney.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -747,7 +747,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Netta",
-    "image": "@/assets/images/leader-BLONDE_EGNT_Netta.png",
+    "image": require("@/assets/images/leader-BLONDE_EGNT_Netta.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -759,7 +759,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Wendell",
-    "image": "@/assets/images/leader-BLONDE_EGNT_Wendell.png",
+    "image": require("@/assets/images/leader-BLONDE_EGNT_Wendell.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -771,7 +771,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Kyra",
-    "image": "@/assets/images/leader-BROWN_EGNT_Kyra.png",
+    "image": require("@/assets/images/leader-BROWN_EGNT_Kyra.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -783,7 +783,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Alfred",
-    "image": "@/assets/images/leader-BROWN_EGNT_Alfred.png",
+    "image": require("@/assets/images/leader-BROWN_EGNT_Alfred.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -795,7 +795,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Petunia",
-    "image": "@/assets/images/leader-GREY_EGNT_Petunia.png",
+    "image": require("@/assets/images/leader-GREY_EGNT_Petunia.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -807,7 +807,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Manny",
-    "image": "@/assets/images/leader-GREY_EGNT_Manny.png",
+    "image": require("@/assets/images/leader-GREY_EGNT_Manny.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -819,7 +819,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Stephanie",
-    "image": "@/assets/images/leader-BALD_EGNT_Stephanie.png",
+    "image": require("@/assets/images/leader-BALD_EGNT_Stephanie.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -831,7 +831,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Morales",
-    "image": "@/assets/images/leader-BALD_EGNT_Morales.png",
+    "image": require("@/assets/images/leader-BALD_EGNT_Morales.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -843,7 +843,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Ruby",
-    "image": "@/assets/images/leader-RED_EGNT_Ruby.png",
+    "image": require("@/assets/images/leader-RED_EGNT_Ruby.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,
@@ -855,7 +855,7 @@ export const leaders: Leader[] = [
   },
   {
     "name": "Eoin",
-    "image": "@/assets/images/leader-RED_EGNT_Eoin.png",
+    "image": require("@/assets/images/leader-RED_EGNT_Eoin.png"),
     "attributes": {
       "earrings": true,
       "glasses": true,

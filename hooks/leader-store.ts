@@ -13,6 +13,8 @@ export const [LeaderContext, useLeaders] = createContextHook(() => {
     hair: 'any',
   });
 
+  const [filtersCollapsed, setFiltersCollapsed] = useState(false);
+
   const filteredLeaders = useMemo(() => {
     return leaders.filter((leader: Leader) => {
       if (filters.earrings && leader.attributes.earrings !== filters.earrings) {
@@ -52,14 +54,20 @@ export const [LeaderContext, useLeaders] = createContextHook(() => {
     });
   }, []);
 
+  const toggleFiltersCollapsed = useCallback(() => {
+    setFiltersCollapsed(prev => !prev);
+  }, []);
+
   const contextValue = useMemo(() => ({
     leaders: filteredLeaders,
     filters,
     updateFilter,
     clearFilters,
+    filtersCollapsed,
+    toggleFiltersCollapsed,
     totalCount: leaders.length,
     filteredCount: filteredLeaders.length,
-  }), [filteredLeaders, filters, updateFilter, clearFilters]);
+  }), [filteredLeaders, filters, updateFilter, clearFilters, filtersCollapsed, toggleFiltersCollapsed]);
 
   return contextValue;
 });

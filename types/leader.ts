@@ -1,6 +1,6 @@
 export interface Leader {
   name: string;
-  image: string;
+  image: any;
   attributes: {
     earrings: boolean;
     glasses: boolean;

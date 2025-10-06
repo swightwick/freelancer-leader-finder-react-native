@@ -1,0 +1,258 @@
+export interface Weapon {
+  name: string;
+  notes: string;
+}
+
+export interface LocationWeapons {
+  location: string;
+  weapons: Weapon[];
+}
+
+export const weaponsData: LocationWeapons[] = [
+  {
+    location: "Ambrose Island",
+    weapons: [
+      { name: "Bartoli 12G Short H", notes: "Carried by some Pirates" },
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "DAK X2", notes: "Carried by various guards" },
+      { name: "DAK X2 Covert", notes: "Carried by Noel Crest" },
+      { name: "Folding Knife", notes: "Militia Cave, near the boat key & in a tree near the hippy/poison study guy" },
+      { name: "Fusil G1-4/C", notes: "Carried by some of the militia guards" },
+      { name: "Oil Canister", notes: "under a workbench by the dock with the repairboat exit" },
+      { name: "Shashka A33", notes: "Carried by Pirates" },
+    ],
+  },
+  {
+    location: "Bangkok",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by some guards, probably Hotel guards" },
+      { name: "Bartoli 75S", notes: "Carried by some guards, probably Cross's guards" },
+      { name: "Baseball Bat", notes: "In Jordan Cross's office" },
+      { name: "Fusil G2", notes: "In the outdoors guard room at the hotel's rear" },
+      { name: "Police Baton", notes: "Main hotel security room where the surveillance recorder is." },
+      { name: "Tactical Bartoli 12G", notes: "In the Security Room on a desk" },
+      { name: "Tanto", notes: "On the bed in Cross's bedroom" },
+    ],
+  },
+  {
+    location: "Berlin",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "Baseball Bat", notes: "Hirschmueller's office, bottom floor & behind the check-in desk" },
+      { name: "Hackl 9R", notes: "Carried by various guards" },
+      { name: "Modern Sedative Syringe", notes: "Wall cabinet behind the DJ booth." },
+      { name: "Sawed-off Bartoli 12G", notes: "Under the desk of Hirschmueller's office, stand to the right of the chair and position your camera upwards" },
+      { name: "Shashka A33", notes: "Carried by some Bikers" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by some Bikers" },
+    ],
+  },
+  {
+    location: "Chongqing",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "Bartoli 75S", notes: "Carried by various guards (Rooftop blue jumpsuits confirmed)" },
+      { name: "Chloroform Flask", notes: "On a rack in the room adjoining the initial ICA guard room" },
+      { name: "Hackl 9R", notes: "Carried by Hush's bodyguard" },
+      { name: "Hackl 9S", notes: "Carried by various guards (Rooftop confirmed)" },
+      { name: "ICA SMG Raptor", notes: "Carried by Facility Guards (black shirts)" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by various guards" },
+    ],
+  },
+  {
+    location: "Colorado",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by a few Militia" },
+      { name: "Bartoli 75S", notes: "Carried by at least 1 Militia, current location unknown." },
+      { name: "Baseball Bat", notes: "Upper floor of the house" },
+      { name: "Fusil G1-4", notes: "Carried by various Militia" },
+      { name: "Fusil G2", notes: "Carried by some guards. One on the upper walkway into the barn is confirmed." },
+      { name: "HX-10", notes: "Carried by various Militia" },
+      { name: "HX-7", notes: "Carried by various Militia" },
+      { name: "Modern Lethal Syringe", notes: "In the basement of the house near the face-scanner exit door" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by various Militia" },
+    ],
+  },
+  {
+    location: "Dartmoor",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "Bartoli Hunting Shotgun", notes: "Mansion ground floor - weapon cabinet, behind glass" },
+      { name: "HX-10", notes: "Carried by various guards" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by various guards" },
+    ],
+  },
+  {
+    location: "Dubai",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "DAK DTI", notes: "Carried by Ingram's Bodyguard & Elite guards not carrying assault rifles" },
+      { name: "Emetic Pills", notes: "In a locker in the room adjacent to the kitchen" },
+      { name: "Shashka A33 Covert", notes: "Carried by Penthouse Guards" },
+    ],
+  },
+  {
+    location: "Haven Island",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "Bartoli 75S", notes: "Carried by various guards, also in a weapon storage within the main surveillance building (security outpost)" },
+      { name: "Baseball Bat", notes: "In the turtle hut" },
+      { name: "Fusil G1-4/C", notes: "Carried by some private security" },
+      { name: "Fusil G2", notes: "Gunrack in the secret office of the villa" },
+      { name: "HX-10", notes: "Gunrack in the secret office of the villa" },
+      { name: "Modern Emetic Syringe", notes: "In the Med clinic (break the glass on the cabinet)" },
+      { name: "Police Baton", notes: "Main surveillance building" },
+      { name: "Remote Explosive", notes: "in the Security Room" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by some private security" },
+    ],
+  },
+  {
+    location: "Hokkaido",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "Baseball Bat", notes: "In the director's office. Sadly not the HF championship bat like in story mode." },
+      { name: "Disposable Scrambler", notes: "Wall cabinet in the security room nearest to the sushi restaurant" },
+      { name: "HX-10", notes: "Carried by various guards" },
+      { name: "HX-7", notes: "Carried by a few guards" },
+      { name: "Police Baton", notes: "Security room closest to the sushi restaurant" },
+      { name: "Tanto", notes: "Yamazaki's room & Mountain-top starting location if you are spawned there." },
+    ],
+  },
+  {
+    location: "Isle of S'gail",
+    weapons: [
+      { name: "Bartoli 12G", notes: "Carried by some Elite Guard - one guy with the butler in the Library, maybe more." },
+      { name: "Bartoli 75R", notes: "Carried by some regular-level Guards" },
+      { name: "Baseball Bat", notes: "In a small storage room (labelled \"Tower Storage\") above the morgue." },
+      { name: "Burial Dagger", notes: "Inside a crate in the Warehouse, shoot the lid off or use a crowbar" },
+      { name: "Chloroform Flask", notes: "On a table in the Morgue" },
+      { name: "Circumcision Knife", notes: "Warehouse Crate, use a crowbar or shoot the lid off." },
+      { name: "Fusil G1-4", notes: "Carried by various Commandos and Elite guards" },
+      { name: "Fusil G2", notes: "Carried by some Elite Guard" },
+      { name: "Hackl 9S Covert", notes: "Buried in the sewers, get a shovel from the \"Old Oak Tree\" or \"Morgue\" location - https://www.youtube.com/watch?v=pdJX-kS9XwE" },
+      { name: "HX-10", notes: "Carried by some Raider guards" },
+      { name: "HX-7", notes: "Carried by some regular-level Guards" },
+      { name: "Katana", notes: "Gallery, in a Samurai head mask & Warehouse Crate, use a crowbar or shoot the lid off." },
+      { name: "Mace", notes: "Penthouse, on the wall, in a room near the Gallery & in the catacombs room" },
+      { name: "Saber", notes: "Stairwell below Architects lounge (Level 4) in a glass cabinet & on the wall in the constant's office" },
+      { name: "Sapper's Axe", notes: "Penthouse, on the wall." },
+      { name: "Tactical Bartoli 12G", notes: "Carried by various Commandos and Elite guards" },
+    ],
+  },
+  {
+    location: "Marrakesh",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by embassy guards" },
+      { name: "Fusil G1-4", notes: "In the ground-floor weapons room of the school" },
+      { name: "HX-7", notes: "Carried by some of the street military guards" },
+      { name: "Remote Explosive", notes: "In the central room of the underground tunnel & in School Armory" },
+      { name: "Saber", notes: "Behind the counter of the shoe shop that leads to the underground tunnel & in Zaydan's office" },
+      { name: "Shashka A33", notes: "Carried by Military Soldiers" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by some Military" },
+    ],
+  },
+  {
+    location: "Mendoza",
+    weapons: [
+      { name: "Bartoli 75S", notes: "Carried by various guards, mainly gauchos, can also be assembled in the armory while disguised as a mercenary" },
+      { name: "Bartoli Hunting Shotgun", notes: "Inside a locker in the Armory & carried by most gaucho guards" },
+      { name: "Bartoli Woodsman Hunting Rifle", notes: "Top-level walkway of the Silo area" },
+      { name: "DAK X2 Covert", notes: "Carried by 1 guard: Asado level, near stairs from the dancefloor, sunglasses." },
+      { name: "Hackl 9R", notes: "Carried by some of the suited guards - such as those in the surveillance room" },
+      { name: "Sapper's Axe", notes: "Don Yates' Room" },
+      { name: "Sieger AR552 Tactical", notes: "Carried by Mercenaries" },
+    ],
+  },
+  {
+    location: "Miami",
+    weapons: [
+      { name: "Amputation Knife", notes: "Medical Area, in the room where you can poison Sierra Knox's IV" },
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "Baseball Bat", notes: "In the fishing shack where the boat exit key is & back-alley behind the hotel" },
+      { name: "Hackl 9R", notes: "Carried by Kronstadt security" },
+      { name: "Hackl 9S", notes: "Carried by regular security guards" },
+      { name: "HX-10", notes: "Carried by some Kronstadt guards" },
+      { name: "Modern Sedative Syringe", notes: "In wall cabinets in the medical area (2x)" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by some Kronstadt guards - one on the Kronstadt roof surveillance room" },
+    ],
+  },
+  {
+    location: "Mumbai",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards" },
+      { name: "Bartoli Woodsman Hunting Rifle", notes: "Top-level of the Chawls where the Kashmirian is" },
+      { name: "Baseball Bat", notes: "On the top-most floor of Rangan's building" },
+      { name: "DAK X2", notes: "Carried by some Rangan bodyguards" },
+      { name: "Folding Knife", notes: "Embedded in a dartboard in the chawls (public area, not in an apartment)" },
+      { name: "Fusil G1-4", notes: "Carried by some elite Rangan tower guards" },
+      { name: "HX-10", notes: "Carried by various Guards" },
+      { name: "Shashka A33", notes: "Carried by various guards" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by various Guards" },
+    ],
+  },
+  {
+    location: "New York",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by some guards" },
+      { name: "Chloroform Flask", notes: "Wall cabinet in basement security center & in a safety deposit box." },
+      { name: "Claw Hammer", notes: "Trolley racks next to Armored Vehicle exit in the basement & corner of main stairs walkway" },
+      { name: "DAK X2", notes: "Carried by the male would-be bank robber in the right-side front entrance toilets" },
+      { name: "Folding Knife", notes: "Carried by female bank robber in the toilets" },
+      { name: "Golden Sawed Off Bartoli 12G", notes: "Steal all gold bars from the vault dressed as the bank robber (easter egg) without setting off the lasers (or after alarm ends)" },
+      { name: "HX-7", notes: "Carried by some guards, definitely in Vault security room" },
+      { name: "Police Baton", notes: "Ground-floor room next to coat-check area where 2 guards are watching TV" },
+      { name: "Tactical Bartoli 12G", notes: "In the vault security room" },
+      { name: "Tanto", notes: "Savalas' panic/observation room on the top floor" },
+    ],
+  },
+  {
+    location: "Paris",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by some guards" },
+      { name: "Fusil G2", notes: "Attic Command Center & carried by some CICADA guards" },
+      { name: "HX-10", notes: "Carried by CICADA Bodyguards" },
+      { name: "Saber", notes: "Museum Room, break display cabinet glass." },
+      { name: "Tactical Bartoli 12G", notes: "Basement security room" },
+    ],
+  },
+  {
+    location: "Santa Fortuna",
+    weapons: [
+      { name: "Bartoli 75R", notes: "Carried by various guards (Mansion & soldiers)" },
+      { name: "Baseball Bat", notes: "House to the right of Martinez's compound" },
+      { name: "Claw Hammer", notes: "on the truck trailer nearest to the main entrance of the construction site (\"burial site\") by the river" },
+      { name: "DAK X2", notes: "Carried by some guards - easiest is the two guards at the minivan exit near the shaman" },
+      { name: "HX-10", notes: "Carried by some Mansion guards" },
+      { name: "Shashka A33", notes: "Carried by some Mansion Guards (e.g. front entrance)" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by various guards (Mansion confirmed)" },
+    ],
+  },
+  {
+    location: "Sapienza",
+    weapons: [
+      { name: "Bartoli 12G", notes: "Top of the ruins castle, Also carried by a guard at the mansion dining hall entrance" },
+      { name: "Bartoli 75R", notes: "Carried by Bodyguards in suits" },
+      { name: "Bartoli 75S", notes: "Carried by Mansion Security" },
+      { name: "Baseball Bat", notes: "In a small corner shop near to the main clock tower" },
+      { name: "Folding Knife", notes: "On the cafe table where 2 guards are sitting near the sanguine shop" },
+      { name: "HX-10", notes: "Carried by some lab guards" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by Biolab Security guards" },
+    ],
+  },
+  {
+    location: "Whittleton Creek",
+    weapons: [
+      { name: "Bartoli 75R", notes: "In the secret tunnel & lewinsky garden on the table, possibly also carried by some guards" },
+      { name: "Baseball Bat", notes: "Wilson Family's House, top-floor office" },
+      { name: "DAK X2", notes: "Top floor Armory & some guards" },
+      { name: "Emetic Pills", notes: "Basement of Helen West's house (Baker's house)" },
+      { name: "Fusil G1-4/C", notes: "Top floor Armory & Carried by a cassidy bodyguard" },
+      { name: "Hackl 9R", notes: "Carried by some guards & police" },
+      { name: "Hackl 9S", notes: "Carried by various guards" },
+      { name: "Hackl 9S Covert", notes: "Sometimes obtainable when you get a basement safe - the guard protecting it typically has one." },
+      { name: "HX-10", notes: "Carried by some guards" },
+      { name: "HX-7 Covert", notes: "Carried by a Cassidy bodyguard or two patrolling ground floor/garden" },
+      { name: "TAC-4 AR Auto", notes: "Top floor Armory of Cassidy's house" },
+      { name: "Tactical Bartoli 12G", notes: "Carried by Spencer Green in Cassidy's House" },
+    ],
+  },
+];

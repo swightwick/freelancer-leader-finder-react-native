@@ -9,7 +9,9 @@ import {
   Crown, 
   Replace, 
   Zap,
-  Circle
+  Circle,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react-native';
 
 const hairOptions = [
@@ -31,7 +33,7 @@ const attributeFilters = [
 ];
 
 export default function FilterSection() {
-  const { filters, updateFilter, clearFilters } = useLeaders();
+  const { filters, updateFilter, clearFilters, filtersCollapsed, toggleFiltersCollapsed } = useLeaders();
 
   const renderToggleFilter = (
     key: keyof Omit<Filters, 'hair'>,
@@ -68,52 +70,67 @@ export default function FilterSection() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, filtersCollapsed && styles.containerCollapsed]}>
+      <TouchableOpacity 
+        style={[styles.header, filtersCollapsed && styles.headerCollapsed]}
+        onPress={toggleFiltersCollapsed}
+        activeOpacity={0.7}
+      >
         <Text style={styles.title}>Filters</Text>
-        <TouchableOpacity onPress={clearFilters} style={styles.clearButton}>
-          <Text style={styles.clearButtonText}>Clear All</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.filtersGrid}>
-        {attributeFilters.map((filter) => 
-          renderToggleFilter(filter.key, filter.label, filter.icon)
-        )}
-      </View>
-      
-      <View style={styles.hairSection}>
-        <Text style={styles.sectionTitle}>Hair Color</Text>
-        <View style={styles.hairGrid}>
-          {hairOptions.map((option) => (
-            <TouchableOpacity
-              key={option.value}
-              style={[
-                styles.hairButton,
-                filters.hair === option.value && styles.hairButtonActive,
-              ]}
-              onPress={() => updateFilter('hair', option.value)}
-            >
-              {option.value !== 'any' && option.value !== 'bald' && (
-                <Circle 
-                  size={12} 
-                  fill={option.color}
-                  color={option.color}
-                  style={styles.hairColorIndicator}
-                />
-              )}
-              <Text
-                style={[
-                  styles.hairButtonText,
-                  filters.hair === option.value && styles.hairButtonTextActive,
-                ]}
-              >
-                {option.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={clearFilters} style={styles.clearButton}>
+            <Text style={styles.clearButtonText}>Clear All</Text>
+          </TouchableOpacity>
+          {filtersCollapsed ? (
+            <ChevronDown size={20} color={Colors.text} />
+          ) : (
+            <ChevronUp size={20} color={Colors.text} />
+          )}
         </View>
-      </View>
+      </TouchableOpacity>
+
+      {!filtersCollapsed && (
+        <>
+          <View style={styles.filtersGrid}>
+            {attributeFilters.map((filter) => 
+              renderToggleFilter(filter.key, filter.label, filter.icon)
+            )}
+          </View>
+          
+          <View style={styles.hairSection}>
+            <Text style={styles.sectionTitle}>Hair Color</Text>
+            <View style={styles.hairGrid}>
+              {hairOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.value}
+                  style={[
+                    styles.hairButton,
+                    filters.hair === option.value && styles.hairButtonActive,
+                  ]}
+                  onPress={() => updateFilter('hair', option.value)}
+                >
+                  {option.value !== 'any' && option.value !== 'bald' && (
+                    <Circle 
+                      size={12} 
+                      fill={option.color}
+                      color={option.color}
+                      style={styles.hairColorIndicator}
+                    />
+                  )}
+                  <Text
+                    style={[
+                      styles.hairButtonText,
+                      filters.hair === option.value && styles.hairButtonTextActive,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        </>
+      )}
     </View>
   );
 }
@@ -126,12 +143,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
   },
+  containerCollapsed: {
+    paddingBottom: 8,
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
     marginBottom: 20,
+  },
+  headerCollapsed: {
+    marginBottom: 8,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
   title: {
     fontSize: 16,
@@ -155,19 +183,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingHorizontal: 16,
-    gap: 12,
-    marginBottom: 24,
+    gap: 8,
+    marginBottom: 20,
   },
   filterToggle: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     backgroundColor: Colors.surfaceSecondary,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.border,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   filterToggleActive: {
     borderColor: Colors.primary,

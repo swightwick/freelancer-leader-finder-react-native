@@ -73,7 +73,7 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
         >
           <View style={styles.imageContainer}>
             <Image
-              source={{ uri: leader.image }}
+              source={leader.image}
               style={[styles.image, { width: imageSize, height: imageSize }]}
               contentFit="cover"
               placeholder="https://via.placeholder.com/300x300/333333/666666?text=Leader"
