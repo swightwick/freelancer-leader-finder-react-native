@@ -29,29 +29,17 @@ function RootLayoutNav() {
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen 
-          name="leaders" 
-          options={{ 
-            headerTitle: () => (
-              <Text style={{
-                fontSize: 22,
-                fontWeight: '700',
-                color: Colors.text,
-                textAlign: 'left',
-                alignSelf: 'flex-start',
-                flex: 1,
-                marginLeft: -10,
-              }}>
-                Freelancer Leader Finder
-              </Text>
-            ),
-            headerStyle: {
-              backgroundColor: Colors.surface,
+        <Stack.Screen
+          name="finder"
+          options={{
+            headerTitle: 'Freelancer Leader Finder',
+            headerTitleStyle: {
+              fontSize: 20,
             },
-            headerTintColor: Colors.text,
-          }} 
+          }}
         />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        <Stack.Screen name="items" options={{ title: 'Items' }} />
+        <Stack.Screen name="about" options={{ title: 'About' }} />
       </Stack>
     </LeaderContext>
   );
