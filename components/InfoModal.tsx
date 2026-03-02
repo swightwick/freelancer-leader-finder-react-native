@@ -32,7 +32,7 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
           </TouchableOpacity>
         </View>
 
-        <ScrollView 
+        <ScrollView
           style={styles.content}
           contentContainerStyle={styles.contentContainer}
           showsVerticalScrollIndicator={false}

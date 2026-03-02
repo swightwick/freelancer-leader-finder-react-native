@@ -5,13 +5,11 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import TabBar from '@/components/TabBar';
 import { Colors } from '@/constants/colors';
 
 export default function AboutScreen() {
   return (
-    <>
-      <View style={styles.container}>
+    <View style={styles.container}>
       <ScrollView
         style={styles.content}
         contentContainerStyle={styles.contentContainer}
@@ -55,15 +53,13 @@ export default function AboutScreen() {
         </View>
       </ScrollView>
     </View>
-    <TabBar />
-  </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: 'transparent',
   },
   content: {
     flex: 1,

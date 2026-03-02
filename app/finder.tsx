@@ -4,7 +4,6 @@ import { useLeaders } from '@/hooks/leader-store';
 import LeaderCard from '@/components/LeaderCard';
 import FilterSection from '@/components/FilterSection';
 import LeaderModal from '@/components/LeaderModal';
-import TabBar from '@/components/TabBar';
 import { Leader } from '@/types/leader';
 import { Colors } from '@/constants/colors';
 
@@ -19,13 +18,13 @@ export default function LeaderFinderScreen() {
   useEffect(() => {
     const currentLeaderNames = new Set(leaders.map(l => l.name));
     const previousLeaderNames = new Set(previousLeaders.current.map(l => l.name));
-    
+
     // Reset all animations when filters change
     leaders.forEach((leader) => {
       if (!animatedValues.has(leader.name)) {
         animatedValues.set(leader.name, new Animated.Value(0));
       }
-      
+
       // Always animate in when filters change or leader is new
       if (!previousLeaderNames.has(leader.name) || previousLeaders.current.length !== leaders.length) {
         const animValue = animatedValues.get(leader.name)!;
@@ -39,7 +38,7 @@ export default function LeaderFinderScreen() {
         }).start();
       }
     });
-    
+
     // Animate out leaders that are no longer visible
     previousLeaders.current.forEach((leader) => {
       if (!currentLeaderNames.has(leader.name)) {
@@ -55,7 +54,7 @@ export default function LeaderFinderScreen() {
         }
       }
     });
-    
+
     previousLeaders.current = leaders;
   }, [filtersKey, leaders, animatedValues]);
 
@@ -72,8 +71,8 @@ export default function LeaderFinderScreen() {
   const renderLeader = ({ item }: { item: Leader }) => {
     const animatedValue = animatedValues.get(item.name);
     return (
-      <LeaderCard 
-        leader={item} 
+      <LeaderCard
+        leader={item}
         onPress={handleLeaderPress}
         animatedValue={animatedValue}
       />
@@ -101,9 +100,8 @@ export default function LeaderFinderScreen() {
   );
 
   return (
-    <>
-      <View style={styles.container}>
-        <FlatList
+    <View style={styles.container}>
+      <FlatList
         data={leaders}
         renderItem={renderLeader}
         keyExtractor={(item) => item.name}
@@ -114,22 +112,19 @@ export default function LeaderFinderScreen() {
         ListEmptyComponent={renderEmpty}
         showsVerticalScrollIndicator={false}
       />
-      
-        <LeaderModal
-          leader={selectedLeader}
-          visible={modalVisible}
-          onClose={handleCloseModal}
-        />
-      </View>
-      <TabBar />
-    </>
+      <LeaderModal
+        leader={selectedLeader}
+        visible={modalVisible}
+        onClose={handleCloseModal}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: 'transparent',
   },
   listContent: {
     paddingBottom: 20,

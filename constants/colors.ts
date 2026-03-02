@@ -15,7 +15,7 @@ export const Colors = {
   border: '#333333',
   borderLight: '#444444',
   shadow: '#000000',
-  
+
   // Badge colors
   earrings: '#FFD700',
   glasses: '#4A90E2',

@@ -3,9 +3,11 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { LeaderContext } from "@/hooks/leader-store";
 import { Colors } from "@/constants/colors";
+import TabBar from "@/components/TabBar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -14,33 +16,40 @@ const queryClient = new QueryClient();
 function RootLayoutNav() {
   return (
     <LeaderContext>
-      <Stack 
-        screenOptions={{ 
-          headerBackTitle: "Back",
-          headerStyle: {
-            backgroundColor: Colors.surface,
-          },
-          headerTintColor: Colors.text,
-          headerTitleStyle: {
-            fontWeight: '700',
-            fontSize: 18,
-          },
-          headerShadowVisible: false,
-        }}
+      <LinearGradient
+        colors={['#720110', '#000000']}
+        style={styles.container}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
       >
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="finder"
-          options={{
-            headerTitle: 'Freelancer Leader Finder',
-            headerTitleStyle: {
-              fontSize: 20,
+        <Stack
+          screenOptions={{
+            headerBackVisible: false,
+            headerStyle: {
+              backgroundColor: Colors.surface,
             },
+            headerTintColor: Colors.text,
+            headerTitleStyle: {
+              fontWeight: '700',
+              fontSize: 18,
+            },
+            headerShadowVisible: false,
+            contentStyle: { backgroundColor: 'transparent' },
           }}
-        />
-        <Stack.Screen name="items" options={{ title: 'Items' }} />
-        <Stack.Screen name="about" options={{ title: 'About' }} />
-      </Stack>
+        >
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="finder"
+            options={{
+              headerTitle: 'LEADER FINDER',
+              animation: 'none',
+            }}
+          />
+          <Stack.Screen name="items" options={{ title: 'ITEMS', animation: 'none' }} />
+          <Stack.Screen name="about" options={{ title: 'ABOUT', animation: 'none' }} />
+        </Stack>
+        <TabBar />
+      </LinearGradient>
     </LeaderContext>
   );
 }

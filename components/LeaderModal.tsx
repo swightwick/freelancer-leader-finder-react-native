@@ -66,7 +66,7 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
           </TouchableOpacity>
         </View>
 
-        <ScrollView 
+        <ScrollView
           style={styles.content}
           contentContainerStyle={styles.contentContainer}
           showsVerticalScrollIndicator={false}
@@ -80,7 +80,7 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
             />
           </View>
 
-          
+
           <View style={[
             styles.hairPill,
             {
@@ -91,7 +91,7 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
               Hair: {leader.attributes.hair.charAt(0).toUpperCase() + leader.attributes.hair.slice(1)}
             </Text>
           </View>
-          
+
           <View style={styles.attributesContainer}>
             <View style={styles.attributesRow}>
               {Object.entries(attributeIcons).map(([key, IconComponent]) => {

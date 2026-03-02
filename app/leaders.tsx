@@ -23,7 +23,7 @@ export default function LeaderFinderScreen() {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => setInfoModalVisible(true)}
           style={{ marginRight: 4, padding: 8 }}
         >
@@ -36,13 +36,13 @@ export default function LeaderFinderScreen() {
   useEffect(() => {
     const currentLeaderNames = new Set(leaders.map(l => l.name));
     const previousLeaderNames = new Set(previousLeaders.current.map(l => l.name));
-    
+
     // Reset all animations when filters change
     leaders.forEach((leader) => {
       if (!animatedValues.has(leader.name)) {
         animatedValues.set(leader.name, new Animated.Value(0));
       }
-      
+
       // Always animate in when filters change or leader is new
       if (!previousLeaderNames.has(leader.name) || previousLeaders.current.length !== leaders.length) {
         const animValue = animatedValues.get(leader.name)!;
@@ -56,7 +56,7 @@ export default function LeaderFinderScreen() {
         }).start();
       }
     });
-    
+
     // Animate out leaders that are no longer visible
     previousLeaders.current.forEach((leader) => {
       if (!currentLeaderNames.has(leader.name)) {
@@ -72,7 +72,7 @@ export default function LeaderFinderScreen() {
         }
       }
     });
-    
+
     previousLeaders.current = leaders;
   }, [filtersKey, leaders, animatedValues]);
 
@@ -89,8 +89,8 @@ export default function LeaderFinderScreen() {
   const renderLeader = ({ item }: { item: Leader }) => {
     const animatedValue = animatedValues.get(item.name);
     return (
-      <LeaderCard 
-        leader={item} 
+      <LeaderCard
+        leader={item}
         onPress={handleLeaderPress}
         animatedValue={animatedValue}
       />
@@ -130,13 +130,13 @@ export default function LeaderFinderScreen() {
         ListEmptyComponent={renderEmpty}
         showsVerticalScrollIndicator={false}
       />
-      
+
       <LeaderModal
         leader={selectedLeader}
         visible={modalVisible}
         onClose={handleCloseModal}
       />
-      
+
       <InfoModal
         visible={infoModalVisible}
         onClose={() => setInfoModalVisible(false)}
@@ -148,7 +148,7 @@ export default function LeaderFinderScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: 'transparent',
   },
   listContent: {
     paddingBottom: 20,

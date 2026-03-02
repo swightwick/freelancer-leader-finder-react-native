@@ -24,7 +24,7 @@ export default function TabBar() {
           <TouchableOpacity
             key={tab.path}
             style={styles.tab}
-            onPress={() => router.push(tab.path as any)}
+            onPress={() => router.navigate(tab.path as any)}
           >
             <Icon
               size={24}

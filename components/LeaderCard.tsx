@@ -23,7 +23,7 @@ const attributeIcons = {
 export default function LeaderCard({ leader, onPress, animatedValue, fullWidth = false }: LeaderCardProps) {
   const { width } = useWindowDimensions();
   const cardWidth = fullWidth ? width - 32 : (width - 48) / 2;
-  
+
   const animatedStyle = animatedValue ? {
     opacity: animatedValue,
     transform: [{
@@ -33,10 +33,10 @@ export default function LeaderCard({ leader, onPress, animatedValue, fullWidth =
       })
     }]
   } : {};
-  
+
   return (
     <Animated.View style={[animatedStyle]}>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={[styles.card, { width: cardWidth }]}
         onPress={() => onPress?.(leader)}
         activeOpacity={0.8}

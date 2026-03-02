@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLeaders } from '@/hooks/leader-store';
 import { Filters } from '@/types/leader';
 import { Colors } from '@/constants/colors';
-import { 
-  Gem, 
-  Glasses, 
-  Crown, 
-  Replace, 
+import {
+  Gem,
+  Glasses,
+  Crown,
+  Replace,
   Zap,
   Circle,
   ChevronDown,
@@ -42,7 +42,7 @@ export default function FilterSection() {
   ) => {
     const value = filters[key];
     const isActive = value === true;
-    
+
     return (
       <TouchableOpacity
         key={key}
@@ -55,8 +55,8 @@ export default function FilterSection() {
           updateFilter(key, !value);
         }}
       >
-        <IconComponent 
-          size={16} 
+        <IconComponent
+          size={16}
           color={isActive ? Colors.iconPrimary : Colors.textSecondary}
         />
         <Text style={[
@@ -71,7 +71,7 @@ export default function FilterSection() {
 
   return (
     <View style={[styles.container, filtersCollapsed && styles.containerCollapsed]}>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={[styles.header, filtersCollapsed && styles.headerCollapsed]}
         onPress={toggleFiltersCollapsed}
         activeOpacity={0.7}
@@ -92,11 +92,11 @@ export default function FilterSection() {
       {!filtersCollapsed && (
         <>
           <View style={styles.filtersGrid}>
-            {attributeFilters.map((filter) => 
+            {attributeFilters.map((filter) =>
               renderToggleFilter(filter.key, filter.label, filter.icon)
             )}
           </View>
-          
+
           <View style={styles.hairSection}>
             <Text style={styles.sectionTitle}>Hair Color</Text>
             <View style={styles.hairGrid}>
@@ -110,8 +110,8 @@ export default function FilterSection() {
                   onPress={() => updateFilter('hair', option.value)}
                 >
                   {option.value !== 'any' && option.value !== 'bald' && (
-                    <Circle 
-                      size={12} 
+                    <Circle
+                      size={12}
                       fill={option.color}
                       color={option.color}
                       style={styles.hairColorIndicator}
