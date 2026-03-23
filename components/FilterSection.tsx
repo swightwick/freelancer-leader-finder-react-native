@@ -11,7 +11,8 @@ import {
   Zap,
   Circle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Trash2,
 } from 'lucide-react-native';
 
 const hairOptions = [
@@ -76,17 +77,18 @@ export default function FilterSection() {
         onPress={toggleFiltersCollapsed}
         activeOpacity={0.7}
       >
-        <Text style={styles.title}>Filters</Text>
-        <View style={styles.headerRight}>
-          <TouchableOpacity onPress={clearFilters} style={styles.clearButton}>
-            <Text style={styles.clearButtonText}>Clear All</Text>
-          </TouchableOpacity>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>Filters</Text>
           {filtersCollapsed ? (
             <ChevronDown size={20} color={Colors.text} />
           ) : (
             <ChevronUp size={20} color={Colors.text} />
           )}
         </View>
+        <TouchableOpacity onPress={clearFilters} style={styles.clearButton}>
+          <Trash2 size={14} color={Colors.textSecondary} />
+          <Text style={styles.clearButtonText}>Clear All</Text>
+        </TouchableOpacity>
       </TouchableOpacity>
 
       {!filtersCollapsed && (
@@ -156,10 +158,10 @@ const styles = StyleSheet.create({
   headerCollapsed: {
     marginBottom: 8,
   },
-  headerRight: {
+  titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 4,
   },
   title: {
     fontSize: 16,
@@ -167,6 +169,9 @@ const styles = StyleSheet.create({
     color: Colors.text,
   },
   clearButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     paddingHorizontal: 16,
     paddingVertical: 8,
     backgroundColor: Colors.surfaceSecondary,

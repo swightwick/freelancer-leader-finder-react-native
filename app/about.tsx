@@ -4,6 +4,8 @@ import {
   Text,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
+  Linking,
 } from 'react-native';
 import { Colors } from '@/constants/colors';
 
@@ -51,6 +53,22 @@ export default function AboutScreen() {
             This application operates under the principles of fair use for educational and informational purposes. If you are a rights holder and have concerns about the content in this application, please contact the developer.
           </Text>
         </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Legal</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => Linking.openURL('https://leaderfinder.samwightwick.co.uk/privacy')}
+          >
+            <Text style={styles.buttonText}>Privacy Policy</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => Linking.openURL('https://leaderfinder.samwightwick.co.uk/terms')}
+          >
+            <Text style={styles.buttonText}>Terms of Use</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );
@@ -83,5 +101,19 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: Colors.textSecondary,
     marginBottom: 12,
+  },
+  button: {
+    borderWidth: 1,
+    borderColor: Colors.textSecondary,
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 12,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: Colors.text,
   },
 });

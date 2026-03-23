@@ -1,42 +1,37 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useRouter, usePathname } from 'expo-router';
 import { Package, Search, Info } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
 
-export default function TabBar() {
-  const router = useRouter();
-  const pathname = usePathname();
+const TABS = [
+  { name: 'finder', label: 'Finder', icon: Search },
+  { name: 'items', label: 'Items', icon: Package },
+  { name: 'about', label: 'About', icon: Info },
+];
 
-  const tabs = [
-    { name: 'Finder', path: '/finder', icon: Search },
-    { name: 'Items', path: '/items', icon: Package },
-    { name: 'About', path: '/about', icon: Info },
-  ];
+type Props = {
+  state: { index: number; routes: Array<{ name: string; key: string }> };
+  navigation: { navigate: (name: string) => void };
+};
 
+export default function TabBar({ state, navigation }: Props) {
   return (
     <View style={styles.container}>
-      {tabs.map((tab) => {
-        const isActive = pathname === tab.path;
+      {TABS.map((tab) => {
+        const isActive = state.routes[state.index]?.name === tab.name;
         const Icon = tab.icon;
 
         return (
           <TouchableOpacity
-            key={tab.path}
+            key={tab.name}
             style={styles.tab}
-            onPress={() => router.navigate(tab.path as any)}
+            onPress={() => {
+              if (!isActive) navigation.navigate(tab.name);
+            }}
           >
-            <Icon
-              size={24}
-              color={isActive ? Colors.primary : Colors.textSecondary}
-            />
-            <Text
-              style={[
-                styles.tabLabel,
-                { color: isActive ? Colors.primary : Colors.textSecondary },
-              ]}
-            >
-              {tab.name}
+            <Icon size={24} color={isActive ? Colors.primary : Colors.textSecondary} />
+            <Text style={[styles.tabLabel, { color: isActive ? Colors.primary : Colors.textSecondary }]}>
+              {tab.label}
             </Text>
           </TouchableOpacity>
         );

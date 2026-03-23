@@ -6,9 +6,9 @@ import {
   Modal,
   TouchableOpacity,
   ScrollView,
-  useWindowDimensions,
 } from 'react-native';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import { X, Gem, Glasses, Crown, Replace, Zap } from 'lucide-react-native';
 import { Leader } from '@/types/leader';
 import { Colors } from '@/constants/colors';
@@ -45,8 +45,6 @@ const hairColors = {
 };
 
 export default function LeaderModal({ leader, visible, onClose }: LeaderModalProps) {
-  const { width } = useWindowDimensions();
-  const imageSize = Math.min(width * 0.95, 500);
 
   if (!leader) return null;
 
@@ -57,7 +55,7 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
       presentationStyle="pageSheet"
       onRequestClose={onClose}
     >
-      <View style={styles.container}>
+      <LinearGradient colors={['#720110', '#000000']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }}>
         <View style={styles.header}>
           <View style={styles.headerLeft} />
           <Text style={styles.headerTitle}>{leader.name}</Text>
@@ -74,7 +72,7 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
           <View style={styles.imageContainer}>
             <Image
               source={leader.image}
-              style={[styles.image, { width: imageSize, height: imageSize }]}
+              style={styles.image}
               contentFit="cover"
               placeholder="https://via.placeholder.com/300x300/333333/666666?text=Leader"
             />
@@ -115,7 +113,7 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
             </View>
           </View>
         </ScrollView>
-      </View>
+      </LinearGradient>
     </Modal>
   );
 }
@@ -123,7 +121,6 @@ export default function LeaderModal({ leader, visible, onClose }: LeaderModalPro
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -134,6 +131,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
+    backgroundColor: '#000000',
   },
   headerLeft: {
     width: 24,
@@ -156,13 +154,18 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   imageContainer: {
-    alignItems: 'center',
+    width: '100%',
+    aspectRatio: 1,
     marginVertical: 20,
-  },
-  image: {
+    backgroundColor: Colors.surfaceSecondary,
     borderRadius: 20,
     borderWidth: 2,
     borderColor: Colors.border,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
   hairPill: {
     paddingHorizontal: 16,

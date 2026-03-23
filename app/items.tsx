@@ -1,5 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Animated } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Pressable, ScrollView, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 import { LinearGradient } from 'expo-linear-gradient';
 import { ChevronRight } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
@@ -41,19 +45,9 @@ const getLocationGradient = (locationName: string): string[] => {
 export default function ItemsScreen() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedWeapon, setSelectedWeapon] = useState<Weapon | null>(null);
-  const fadeAnim = useRef(new Animated.Value(1)).current;
   const blackOverlayAnim = useRef(new Animated.Value(0)).current;
-  const weaponExpandAnim = useRef<Map<string, Animated.Value>>(new Map()).current;
 
   const currentLocationData = weaponsData.find(loc => loc.location === selectedLocation);
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  }, [selectedLocation]);
 
   const handleLocationSelect = (location: string) => {
     Animated.sequence([
@@ -96,30 +90,10 @@ export default function ItemsScreen() {
   };
 
   const handleWeaponPress = (weapon: Weapon) => {
-    if (selectedWeapon?.name === weapon.name) {
-      setSelectedWeapon(null);
-    } else {
-      setSelectedWeapon(weapon);
-    }
+    const isOpen = selectedWeapon?.name === weapon.name;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setSelectedWeapon(isOpen ? null : weapon);
   };
-
-  const getWeaponExpandAnim = (weaponName: string) => {
-    if (!weaponExpandAnim.has(weaponName)) {
-      weaponExpandAnim.set(weaponName, new Animated.Value(0));
-    }
-    return weaponExpandAnim.get(weaponName)!;
-  };
-
-  useEffect(() => {
-    if (selectedWeapon) {
-      const anim = getWeaponExpandAnim(selectedWeapon.name);
-      Animated.timing(anim, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: false,
-      }).start();
-    }
-  }, [selectedWeapon]);
 
   if (selectedLocation && currentLocationData) {
     const gradient = getLocationGradient(selectedLocation);
@@ -147,32 +121,24 @@ export default function ItemsScreen() {
           <View style={styles.weaponList}>
             {currentLocationData.weapons.map((weapon, index) => {
               const isSelected = selectedWeapon?.name === weapon.name;
-              const expandAnim = getWeaponExpandAnim(weapon.name);
 
               return (
-                <TouchableOpacity
+                <Pressable
                   key={index}
-                  style={[styles.weaponItem, isSelected && styles.weaponItemSelected]}
+                  style={({ pressed }) => [
+                    styles.weaponItem,
+                    isSelected && styles.weaponItemSelected,
+                    pressed && styles.weaponItemPressed,
+                  ]}
                   onPress={() => handleWeaponPress(weapon)}
                 >
                   <Text style={styles.weaponName}>{weapon.name}</Text>
                   {isSelected && (
-                    <Animated.View
-                      style={[
-                        styles.weaponNotesContainer,
-                        {
-                          opacity: expandAnim,
-                          maxHeight: expandAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [0, 500],
-                          }),
-                        },
-                      ]}
-                    >
+                    <View style={styles.weaponNotesContainer}>
                       <Text style={styles.weaponNotes}>{weapon.notes}</Text>
-                    </Animated.View>
+                    </View>
                   )}
-                </TouchableOpacity>
+                </Pressable>
               );
             })}
           </View>
@@ -266,8 +232,6 @@ const styles = StyleSheet.create({
   },
   locationHeaderGradient: {
     width: '100%',
-    height: 140,
-    justifyContent: 'flex-end',
     padding: 20,
   },
   locationHeaderTitle: {
@@ -292,6 +256,9 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   weaponItemSelected: {
+    borderColor: Colors.primary,
+  },
+  weaponItemPressed: {
     borderColor: Colors.primary,
   },
   weaponName: {
