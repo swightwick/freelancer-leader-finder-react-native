@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, FlatList, Animated } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useLeaders } from '@/hooks/leader-store';
 import LeaderCard from '@/components/LeaderCard';
 import FilterSection from '@/components/FilterSection';
@@ -9,79 +9,46 @@ import { Colors } from '@/constants/colors';
 
 export default function LeaderFinderScreen() {
   const { leaders, filteredCount, totalCount, filters } = useLeaders();
-  const [selectedLeader, setSelectedLeader] = useState<Leader | null>(null);
+  const [selectedLeaderIndex, setSelectedLeaderIndex] = useState<number>(0);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const animatedValues = useRef<Map<string, Animated.Value>>(new Map()).current;
-  const previousLeaders = useRef<Leader[]>([]);
+  const [dismissedLeaders, setDismissedLeaders] = useState<Set<string>>(new Set());
   const filtersKey = JSON.stringify(filters);
 
-  useEffect(() => {
-    const currentLeaderNames = new Set(leaders.map(l => l.name));
-    const previousLeaderNames = new Set(previousLeaders.current.map(l => l.name));
-
-    // Reset all animations when filters change
-    leaders.forEach((leader) => {
-      if (!animatedValues.has(leader.name)) {
-        animatedValues.set(leader.name, new Animated.Value(0));
+  const handleLeaderLongPress = (leader: Leader) => {
+    setDismissedLeaders(prev => {
+      const next = new Set(prev);
+      if (next.has(leader.name)) {
+        next.delete(leader.name);
+      } else {
+        next.add(leader.name);
       }
-
-      // Always animate in when filters change or leader is new
-      if (!previousLeaderNames.has(leader.name) || previousLeaders.current.length !== leaders.length) {
-        const animValue = animatedValues.get(leader.name)!;
-        animValue.setValue(0);
-        Animated.spring(animValue, {
-          toValue: 1,
-          useNativeDriver: true,
-          tension: 120,
-          friction: 8,
-          delay: Math.random() * 100, // Stagger animations
-        }).start();
-      }
+      return next;
     });
-
-    // Animate out leaders that are no longer visible
-    previousLeaders.current.forEach((leader) => {
-      if (!currentLeaderNames.has(leader.name)) {
-        const animValue = animatedValues.get(leader.name);
-        if (animValue) {
-          Animated.timing(animValue, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver: true,
-          }).start(() => {
-            animatedValues.delete(leader.name);
-          });
-        }
-      }
-    });
-
-    previousLeaders.current = leaders;
-  }, [filtersKey, leaders, animatedValues]);
+  };
 
   const handleLeaderPress = (leader: Leader) => {
-    setSelectedLeader(leader);
+    setSelectedLeaderIndex(leaders.indexOf(leader));
     setModalVisible(true);
   };
 
   const handleCloseModal = () => {
     setModalVisible(false);
-    setTimeout(() => setSelectedLeader(null), 300);
   };
 
-  const renderLeader = ({ item }: { item: Leader }) => {
-    const animatedValue = animatedValues.get(item.name);
-    return (
-      <LeaderCard
-        leader={item}
-        onPress={handleLeaderPress}
-        animatedValue={animatedValue}
-      />
-    );
-  };
+  const renderLeader = ({ item, index }: { item: Leader; index: number }) => (
+    <LeaderCard
+      leader={item}
+      onPress={handleLeaderPress}
+      onLongPress={handleLeaderLongPress}
+      staggerDelay={index * 80}
+      animationKey={filtersKey}
+      isDisabled={dismissedLeaders.has(item.name)}
+    />
+  );
 
   const renderHeader = () => (
     <View>
-      <FilterSection />
+      <FilterSection onClearDismissed={() => setDismissedLeaders(new Set())} />
       <View style={styles.resultsHeader}>
         <Text style={styles.resultsText}>
           {filteredCount} of {totalCount} leaders
@@ -105,6 +72,7 @@ export default function LeaderFinderScreen() {
         data={leaders}
         renderItem={renderLeader}
         keyExtractor={(item) => item.name}
+        extraData={dismissedLeaders}
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.listContent}
@@ -113,9 +81,11 @@ export default function LeaderFinderScreen() {
         showsVerticalScrollIndicator={false}
       />
       <LeaderModal
-        leader={selectedLeader}
+        leaders={leaders}
+        initialIndex={selectedLeaderIndex}
         visible={modalVisible}
         onClose={handleCloseModal}
+        dismissedLeaders={dismissedLeaders}
       />
     </View>
   );

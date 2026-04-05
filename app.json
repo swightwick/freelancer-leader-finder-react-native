@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "app.rork.freelancer-leader-finder"
+      "package": "app.rork.freelancer_leader_finder"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

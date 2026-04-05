@@ -1,4 +1,3 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Tabs } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useEffect } from "react";
@@ -17,8 +16,6 @@ const theme = {
 
 SplashScreen.preventAutoHideAsync();
 
-const queryClient = new QueryClient();
-
 function RootLayoutNav() {
   return (
     <LeaderContext>
@@ -31,14 +28,16 @@ function RootLayoutNav() {
         <ThemeProvider value={theme}>
         <Tabs
           tabBar={(props) => <TabBar {...props} />}
-          sceneContainerStyle={{ backgroundColor: 'transparent' }}
           screenOptions={{
-            animation: 'fade',
+            lazy: true,
+            sceneStyle: { backgroundColor: 'transparent' },
             headerStyle: { backgroundColor: Colors.surface },
             headerTintColor: Colors.text,
             headerTitleStyle: {
               fontWeight: '700',
-              fontSize: 18,
+              fontSize: 15,
+              letterSpacing: 4,
+              paddingBottom: 10,
             },
             headerShadowVisible: false,
           }}
@@ -60,16 +59,15 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView style={styles.container}>
-        <RootLayoutNav />
-      </GestureHandlerRootView>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={styles.container}>
+      <RootLayoutNav />
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000000',
   },
 });

@@ -1,6 +1,6 @@
 export interface Leader {
   name: string;
-  image: any;
+  image: number | { uri: string };
   attributes: {
     earrings: boolean;
     glasses: boolean;

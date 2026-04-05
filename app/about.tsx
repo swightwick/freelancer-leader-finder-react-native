@@ -30,7 +30,10 @@ export default function AboutScreen() {
             • Use the filter toggles to specify which attributes a target has{'\n'}
             • Filter by hair color using the color buttons{'\n'}
             • Browse through the filtered results to find matching targets{'\n'}
-            • Tap on any target card to view detailed information
+            • Tap on any target card to view detailed information{'\n'}
+            • Press and hold a leader card to eliminate them from your choices — they will be greyed out with a red overlay{'\n'}
+            • Press and hold again to restore a dismissed leader{'\n'}
+            • Tap Clear All to reset both filters and dismissed leaders
           </Text>
         </View>
 

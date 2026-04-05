@@ -3,43 +3,27 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLeaders } from '@/hooks/leader-store';
 import { Filters } from '@/types/leader';
 import { Colors } from '@/constants/colors';
-import {
-  Gem,
-  Glasses,
-  Crown,
-  Replace,
-  Zap,
-  Circle,
-  ChevronDown,
-  ChevronUp,
-  Trash2,
-} from 'lucide-react-native';
+import { Circle, ChevronDown, ChevronUp, Trash2 } from 'lucide-react-native';
+import { hairColorOptions } from '@/constants/hairColors';
+import { attributeIcons, attributeNames } from '@/constants/attributeIcons';
 
-const hairOptions = [
-  { label: 'Any', value: 'any' as const, color: Colors.textTertiary },
-  { label: 'Black', value: 'black' as const, color: '#1a1a1a' },
-  { label: 'Blonde', value: 'blonde' as const, color: '#f4d03f' },
-  { label: 'Brown', value: 'brown' as const, color: '#8b4513' },
-  { label: 'Gray', value: 'gray' as const, color: '#808080' },
-  { label: 'Red', value: 'red' as const, color: '#dc143c' },
-  { label: 'Bald', value: 'bald' as const, color: Colors.textTertiary },
-];
+const attributeFilters = (Object.keys(attributeIcons) as Array<keyof typeof attributeIcons>).map(key => ({
+  key,
+  label: attributeNames[key],
+  icon: attributeIcons[key],
+}));
 
-const attributeFilters = [
-  { key: 'earrings' as const, label: 'Earrings', icon: Gem },
-  { key: 'glasses' as const, label: 'Glasses', icon: Glasses },
-  { key: 'hat' as const, label: 'Hat', icon: Crown },
-  { key: 'necklace' as const, label: 'Necklace', icon: Replace },
-  { key: 'tattoo' as const, label: 'Tattoo', icon: Zap },
-];
+interface FilterSectionProps {
+  onClearDismissed?: () => void;
+}
 
-export default function FilterSection() {
+export default function FilterSection({ onClearDismissed }: FilterSectionProps) {
   const { filters, updateFilter, clearFilters, filtersCollapsed, toggleFiltersCollapsed } = useLeaders();
 
   const renderToggleFilter = (
     key: keyof Omit<Filters, 'hair'>,
     label: string,
-    IconComponent: React.ComponentType<any>
+    IconComponent: React.ComponentType<{ size: number; color: string }>
   ) => {
     const value = filters[key];
     const isActive = value === true;
@@ -55,6 +39,7 @@ export default function FilterSection() {
         onPress={() => {
           updateFilter(key, !value);
         }}
+        activeOpacity={0.7}
       >
         <IconComponent
           size={16}
@@ -85,7 +70,7 @@ export default function FilterSection() {
             <ChevronUp size={20} color={Colors.text} />
           )}
         </View>
-        <TouchableOpacity onPress={clearFilters} style={styles.clearButton}>
+        <TouchableOpacity onPress={() => { clearFilters(); onClearDismissed?.(); }} style={styles.clearButton} activeOpacity={0.7}>
           <Trash2 size={14} color={Colors.textSecondary} />
           <Text style={styles.clearButtonText}>Clear All</Text>
         </TouchableOpacity>
@@ -102,7 +87,7 @@ export default function FilterSection() {
           <View style={styles.hairSection}>
             <Text style={styles.sectionTitle}>Hair Color</Text>
             <View style={styles.hairGrid}>
-              {hairOptions.map((option) => (
+              {hairColorOptions.map((option) => (
                 <TouchableOpacity
                   key={option.value}
                   style={[
@@ -110,12 +95,13 @@ export default function FilterSection() {
                     filters.hair === option.value && styles.hairButtonActive,
                   ]}
                   onPress={() => updateFilter('hair', option.value)}
+                  activeOpacity={0.7}
                 >
                   {option.value !== 'any' && option.value !== 'bald' && (
                     <Circle
                       size={12}
-                      fill={option.color}
-                      color={option.color}
+                      fill={option.color ?? ''}
+                      color={option.color ?? ''}
                       style={styles.hairColorIndicator}
                     />
                   )}
@@ -174,7 +160,6 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: Colors.surfaceSecondary,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.border,
@@ -246,11 +231,11 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
   hairButtonActive: {
-    backgroundColor: Colors.primary,
     borderColor: Colors.primary,
+    backgroundColor: Colors.primary + '15',
   },
   hairButtonText: {
-    fontSize: 13,
+    fontSize: 14,
     color: Colors.textSecondary,
     fontWeight: '600',
   },

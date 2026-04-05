@@ -1,56 +1,69 @@
-import React from 'react';
-import { View, Text, StyleSheet, useWindowDimensions, TouchableOpacity, Animated } from 'react-native';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import { View, Text, StyleSheet, useWindowDimensions, Animated } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
-import { Gem, Glasses, Crown, Replace, Zap } from 'lucide-react-native';
+import { X } from 'lucide-react-native';
 import { Leader } from '@/types/leader';
 import { Colors } from '@/constants/colors';
+import { attributeIcons } from '@/constants/attributeIcons';
 
 interface LeaderCardProps {
   leader: Leader;
   onPress?: (leader: Leader) => void;
-  animatedValue?: Animated.Value;
+  onLongPress?: (leader: Leader) => void;
+  staggerDelay?: number;
+  animationKey?: string;
   fullWidth?: boolean;
+  isDisabled?: boolean;
 }
 
-const attributeIcons = {
-  earrings: Gem,
-  glasses: Glasses,
-  hat: Crown,
-  necklace: Replace,
-  tattoo: Zap,
-};
-
-export default function LeaderCard({ leader, onPress, animatedValue, fullWidth = false }: LeaderCardProps) {
+export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay = 0, animationKey, fullWidth = false, isDisabled = false }: LeaderCardProps) {
   const { width } = useWindowDimensions();
   const cardWidth = fullWidth ? width - 32 : (width - 48) / 2;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  const animatedStyle = animatedValue ? {
-    opacity: animatedValue,
-    transform: [{
-      scale: animatedValue.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0.8, 1],
-      })
-    }]
-  } : {};
+  // Reset to 0 before paint so there's no flash
+  useLayoutEffect(() => {
+    fadeAnim.setValue(0);
+  }, [animationKey]);
+
+  // Start staggered fade after reset
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }, staggerDelay);
+    return () => clearTimeout(timer);
+  }, [animationKey]);
 
   return (
-    <Animated.View style={[animatedStyle]}>
+    <Animated.View style={{ opacity: fadeAnim }}>
       <TouchableOpacity
         style={[styles.card, { width: cardWidth }]}
         onPress={() => onPress?.(leader)}
+        onLongPress={() => onLongPress?.(leader)}
+        delayLongPress={500}
         activeOpacity={0.8}
       >
         <View style={[styles.imageContainer, { height: cardWidth * 0.8 }]}>
           <Image
             source={leader.image}
-            style={styles.image}
+            style={[styles.image, isDisabled && styles.imageDisabled]}
             contentFit="cover"
-            placeholder="https://via.placeholder.com/120x120/333333/666666?text=Leader"
+            contentPosition={{ top: '5%' }}
           />
+          {isDisabled && <View style={styles.greyscaleOverlay} />}
+          {isDisabled && (
+            <View style={[styles.disabledOverlay, { opacity: 0.8 }]}>
+              <X size={cardWidth * 0.5} color="white" strokeWidth={2} />
+            </View>
+          )}
         </View>
-        <View style={styles.content}>
-          <Text style={styles.name}>{leader.name}</Text>
+        <View style={[styles.content, isDisabled && styles.contentDisabled]}>
+          <Text style={[styles.name, isDisabled && styles.textDisabled]}>{leader.name}</Text>
           <View style={styles.attributes}>
             {Object.entries(attributeIcons).map(([key, IconComponent]) => {
               const hasAttribute = leader.attributes[key as keyof typeof attributeIcons];
@@ -63,7 +76,7 @@ export default function LeaderCard({ leader, onPress, animatedValue, fullWidth =
               ) : null;
             })}
           </View>
-          <Text style={styles.hairColor}>{leader.attributes.hair}</Text>
+          <Text style={[styles.hairColor, isDisabled && styles.textDisabled]}>{leader.attributes.hair}</Text>
         </View>
       </TouchableOpacity>
     </Animated.View>
@@ -120,5 +133,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'capitalize',
     fontWeight: '600',
+  },
+  imageDisabled: {
+    opacity: 0.5,
+  },
+  greyscaleOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(180,0,0,0.3)',
+  },
+  disabledOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contentDisabled: {
+    opacity: 0.45,
+  },
+  textDisabled: {
+    color: Colors.textSecondary,
   },
 });

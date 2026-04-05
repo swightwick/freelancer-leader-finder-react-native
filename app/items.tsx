@@ -1,9 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Pressable, ScrollView, Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Animated } from 'react-native';
 
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 import { LinearGradient } from 'expo-linear-gradient';
 import { ChevronRight } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
@@ -42,10 +39,32 @@ const getLocationGradient = (locationName: string): string[] => {
   return locationGradients[keyMap[key] ?? key] ?? ['#1a1a1a', '#333333', '#555555'];
 };
 
+function WeaponItem({ weapon }: { weapon: Weapon }) {
+  return (
+    <View style={styles.weaponItem}>
+      <Text style={styles.weaponName}>{weapon.name}</Text>
+      <View style={styles.weaponNotesContainer}>
+        <Text style={styles.weaponNotes}>{weapon.notes}</Text>
+      </View>
+    </View>
+  );
+}
+
 export default function ItemsScreen() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  const [selectedWeapon, setSelectedWeapon] = useState<Weapon | null>(null);
   const blackOverlayAnim = useRef(new Animated.Value(0)).current;
+  const mountAnim = useRef(new Animated.Value(0)).current;
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    Animated.timing(mountAnim, { toValue: 1, duration: 250, useNativeDriver: true }).start();
+  }, []);
 
   const currentLocationData = weaponsData.find(loc => loc.location === selectedLocation);
 
@@ -63,9 +82,9 @@ export default function ItemsScreen() {
       }),
     ]).start();
 
-    setTimeout(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
       setSelectedLocation(location);
-      setSelectedWeapon(null);
     }, 150);
   };
 
@@ -83,28 +102,22 @@ export default function ItemsScreen() {
       }),
     ]).start();
 
-    setTimeout(() => {
-      setSelectedWeapon(null);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
       setSelectedLocation(null);
     }, 150);
-  };
-
-  const handleWeaponPress = (weapon: Weapon) => {
-    const isOpen = selectedWeapon?.name === weapon.name;
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setSelectedWeapon(isOpen ? null : weapon);
   };
 
   if (selectedLocation && currentLocationData) {
     const gradient = getLocationGradient(selectedLocation);
 
     return (
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, { opacity: mountAnim }]}>
         <Animated.View
           pointerEvents="none"
           style={[styles.blackOverlay, { opacity: blackOverlayAnim }]}
         />
-        <TouchableOpacity style={styles.backButton} onPress={handleBackToLocations}>
+        <TouchableOpacity style={styles.backButton} onPress={handleBackToLocations} activeOpacity={0.7}>
           <Text style={styles.backButtonText}>← Back to Locations</Text>
         </TouchableOpacity>
 
@@ -119,36 +132,20 @@ export default function ItemsScreen() {
 
         <ScrollView style={styles.fullPageScroll} showsVerticalScrollIndicator={false}>
           <View style={styles.weaponList}>
-            {currentLocationData.weapons.map((weapon, index) => {
-              const isSelected = selectedWeapon?.name === weapon.name;
-
-              return (
-                <Pressable
-                  key={index}
-                  style={({ pressed }) => [
-                    styles.weaponItem,
-                    isSelected && styles.weaponItemSelected,
-                    pressed && styles.weaponItemPressed,
-                  ]}
-                  onPress={() => handleWeaponPress(weapon)}
-                >
-                  <Text style={styles.weaponName}>{weapon.name}</Text>
-                  {isSelected && (
-                    <View style={styles.weaponNotesContainer}>
-                      <Text style={styles.weaponNotes}>{weapon.notes}</Text>
-                    </View>
-                  )}
-                </Pressable>
-              );
-            })}
+            {currentLocationData.weapons.map((weapon) => (
+              <WeaponItem
+                key={weapon.name}
+                weapon={weapon}
+              />
+            ))}
           </View>
         </ScrollView>
-      </View>
+      </Animated.View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: mountAnim }]}>
       <Animated.View
         pointerEvents="none"
         style={[styles.blackOverlay, { opacity: blackOverlayAnim }]}
@@ -162,6 +159,7 @@ export default function ItemsScreen() {
               <TouchableOpacity
                 style={styles.locationCard}
                 onPress={() => handleLocationSelect(item.location)}
+                activeOpacity={0.7}
               >
                 <LinearGradient
                   colors={gradient as [string, string, string]}
@@ -181,7 +179,7 @@ export default function ItemsScreen() {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         />
-    </View>
+    </Animated.View>
   );
 }
 
@@ -206,7 +204,7 @@ const styles = StyleSheet.create({
   },
   locationName: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '500',
     color: '#ffffff',
   },
   locationCardRight: {
@@ -227,12 +225,14 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     fontSize: 16,
-    color: Colors.primary,
+    color: Colors.text,
     fontWeight: '600',
   },
   locationHeaderGradient: {
     width: '100%',
     padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
   },
   locationHeaderTitle: {
     fontSize: 28,
@@ -254,12 +254,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.border,
-  },
-  weaponItemSelected: {
-    borderColor: Colors.primary,
-  },
-  weaponItemPressed: {
-    borderColor: Colors.primary,
   },
   weaponName: {
     fontSize: 16,
