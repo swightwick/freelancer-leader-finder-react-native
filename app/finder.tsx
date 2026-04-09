@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useLeaders } from '@/hooks/leader-store';
 import LeaderCard from '@/components/LeaderCard';
@@ -12,9 +12,14 @@ export default function LeaderFinderScreen() {
   const [selectedLeaderIndex, setSelectedLeaderIndex] = useState<number>(0);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [dismissedLeaders, setDismissedLeaders] = useState<Set<string>>(new Set());
-  const filtersKey = JSON.stringify(filters);
+  const animationKey = useMemo(() => JSON.stringify(filters), [filters]);
+  const isClearingRef = useRef(false);
 
-  const handleLeaderLongPress = (leader: Leader) => {
+  useEffect(() => {
+    isClearingRef.current = false;
+  }, [animationKey]);
+
+  const handleLeaderLongPress = useCallback((leader: Leader) => {
     setDismissedLeaders(prev => {
       const next = new Set(prev);
       if (next.has(leader.name)) {
@@ -24,31 +29,26 @@ export default function LeaderFinderScreen() {
       }
       return next;
     });
-  };
+  }, []);
 
-  const handleLeaderPress = (leader: Leader) => {
-    setSelectedLeaderIndex(leaders.indexOf(leader));
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setModalVisible(false);
-  };
+  }, []);
 
   const renderLeader = ({ item, index }: { item: Leader; index: number }) => (
     <LeaderCard
       leader={item}
-      onPress={handleLeaderPress}
+      onPress={() => { setSelectedLeaderIndex(index); setModalVisible(true); }}
       onLongPress={handleLeaderLongPress}
-      staggerDelay={index * 80}
-      animationKey={filtersKey}
+      staggerDelay={isClearingRef.current ? 0 : Math.min(index, 3) * 80}
+      animationKey={animationKey}
       isDisabled={dismissedLeaders.has(item.name)}
     />
   );
 
   const renderHeader = () => (
     <View>
-      <FilterSection onClearDismissed={() => setDismissedLeaders(new Set())} />
+      <FilterSection onClearDismissed={() => { isClearingRef.current = true; setDismissedLeaders(new Set()); }} />
       <View style={styles.resultsHeader}>
         <Text style={styles.resultsText}>
           {filteredCount} of {totalCount} leaders
@@ -79,6 +79,9 @@ export default function LeaderFinderScreen() {
         ListHeaderComponent={renderHeader}
         ListEmptyComponent={renderEmpty}
         showsVerticalScrollIndicator={false}
+        initialNumToRender={100}
+        maxToRenderPerBatch={100}
+        windowSize={21}
       />
       <LeaderModal
         leaders={leaders}

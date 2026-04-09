@@ -28,9 +28,12 @@ export default function TabBar({ state, navigation }: Props) {
             onPress={() => {
               if (!isActive) navigation.navigate(tab.name);
             }}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: isActive }}
+            accessibilityLabel={tab.label}
           >
-            <Icon size={24} color={isActive ? Colors.primary : Colors.textSecondary} />
-            <Text style={[styles.tabLabel, { color: isActive ? Colors.primary : Colors.textSecondary }]}>
+            <Icon size={24} color={isActive ? Colors.iconPrimary : Colors.textSecondary} />
+            <Text style={[styles.tabLabel, { color: isActive ? Colors.iconPrimary : Colors.textSecondary }]}>
               {tab.label}
             </Text>
           </TouchableOpacity>

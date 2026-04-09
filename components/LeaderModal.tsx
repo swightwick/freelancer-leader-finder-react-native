@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   useWindowDimensions,
+  ViewToken,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -32,7 +33,7 @@ function LeaderPage({ leader, width, isDisabled }: { leader: Leader; width: numb
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.imageContainer}>
+      <View style={[styles.imageContainer, { width }]}>
         <Image
           source={leader.image}
           style={[styles.image, isDisabled && styles.imageDisabled]}
@@ -44,15 +45,6 @@ function LeaderPage({ leader, width, isDisabled }: { leader: Leader; width: numb
             <X size={width * 0.4} color="white" strokeWidth={2} />
           </View>
         )}
-      </View>
-
-      <View style={[
-        styles.hairPill,
-        { backgroundColor: hairColors[leader.attributes.hair as keyof typeof hairColors] || Colors.textTertiary },
-      ]}>
-        <Text style={styles.hairText}>
-          Hair: {leader.attributes.hair.charAt(0).toUpperCase() + leader.attributes.hair.slice(1)}
-        </Text>
       </View>
 
       <View style={styles.attributesContainer}>
@@ -77,6 +69,15 @@ function LeaderPage({ leader, width, isDisabled }: { leader: Leader; width: numb
           })}
         </View>
       </View>
+
+      <View style={[
+        styles.hairPill,
+        { backgroundColor: hairColors[leader.attributes.hair as keyof typeof hairColors] || Colors.textTertiary },
+      ]}>
+        <Text style={[styles.hairText, (leader.attributes.hair === 'blonde' || leader.attributes.hair === 'bald') && { color: '#000000' }]}>
+          Hair: {leader.attributes.hair}
+        </Text>
+      </View>
     </ScrollView>
   );
 }
@@ -88,13 +89,19 @@ export default function LeaderModal({ leaders, initialIndex, visible, onClose, d
 
   useEffect(() => {
     if (visible) {
-      setCurrentIndex(initialIndex);
-      // Scroll without animation so it starts at the right position
-      flatListRef.current?.scrollToIndex({ index: initialIndex, animated: false });
+      const safeIndex = Math.min(initialIndex, leaders.length - 1);
+      setCurrentIndex(safeIndex);
+      flatListRef.current?.scrollToIndex({ index: safeIndex, animated: false });
     }
-  }, [visible, initialIndex]);
+  }, [visible, initialIndex, leaders.length]);
 
-  const onViewableItemsChanged = useCallback(({ viewableItems }: any) => {
+  useEffect(() => {
+    if (currentIndex >= leaders.length) {
+      setCurrentIndex(Math.max(0, leaders.length - 1));
+    }
+  }, [leaders.length, currentIndex]);
+
+  const onViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems.length > 0 && viewableItems[0].index != null) {
       setCurrentIndex(viewableItems[0].index);
     }
@@ -160,10 +167,12 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '600',
     color: Colors.text,
     flex: 1,
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   closeButton: {
     padding: 4,
@@ -173,13 +182,10 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   imageContainer: {
-    width: '100%',
     aspectRatio: 1,
-    marginVertical: 20,
+    marginLeft: -20,
+    marginBottom: 20,
     backgroundColor: Colors.surfaceSecondary,
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: Colors.border,
     overflow: 'hidden',
   },
   image: {
@@ -204,20 +210,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 20,
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: 32,
     marginBottom: 16,
   },
   hairText: {
     fontSize: 14,
     fontWeight: '600',
     color: 'white',
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    textTransform: 'capitalize',
   },
   attributesContainer: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 12,
   },
   attributesRow: {
     flexDirection: 'row',

@@ -1,10 +1,10 @@
 export const hairColors: Record<string, string> = {
   black: '#1a1a1a',
-  blonde: '#f5deb3',
+  blonde: '#f0c020',
   brown: '#8b4513',
   gray: '#808080',
   red: '#dc143c',
-  bald: '#d4af37',
+  bald: '#e8c9a0',
 };
 
 export const hairColorOptions = [

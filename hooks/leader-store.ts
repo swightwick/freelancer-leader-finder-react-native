@@ -39,7 +39,7 @@ export const [LeaderContext, useLeaders] = createContextHook(() => {
     });
   }, [filters]);
 
-  const updateFilter = useCallback((key: keyof Filters, value: any) => {
+  const updateFilter = useCallback(<K extends keyof Filters>(key: K, value: Filters[K]) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   }, []);
 

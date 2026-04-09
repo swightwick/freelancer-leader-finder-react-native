@@ -36,7 +36,10 @@ export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay 
         useNativeDriver: true,
       }).start();
     }, staggerDelay);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      fadeAnim.stopAnimation();
+    };
   }, [animationKey]);
 
   return (
@@ -47,6 +50,9 @@ export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay 
         onLongPress={() => onLongPress?.(leader)}
         delayLongPress={500}
         activeOpacity={0.8}
+        accessible={true}
+        accessibilityLabel={`${leader.name}, ${leader.attributes.hair} hair`}
+        accessibilityHint="Tap to view details, hold to dismiss"
       >
         <View style={[styles.imageContainer, { height: cardWidth * 0.8 }]}>
           <Image
@@ -54,6 +60,7 @@ export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay 
             style={[styles.image, isDisabled && styles.imageDisabled]}
             contentFit="cover"
             contentPosition={{ top: '5%' }}
+            accessibilityLabel={`Portrait of ${leader.name}`}
           />
           {isDisabled && <View style={styles.greyscaleOverlay} />}
           {isDisabled && (
@@ -86,7 +93,7 @@ export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay 
 const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.surface,
-    borderRadius: 20,
+    borderRadius: 8,
     marginBottom: 16,
     shadowColor: Colors.shadow,
     shadowOffset: {
@@ -101,8 +108,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     overflow: 'hidden',
     backgroundColor: Colors.surfaceSecondary,
   },
@@ -114,11 +121,13 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   name: {
-    fontSize: 18,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '600',
     color: Colors.text,
     marginBottom: 12,
     textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   attributes: {
     flexDirection: 'row',

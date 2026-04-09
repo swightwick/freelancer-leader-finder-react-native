@@ -1,7 +1,60 @@
+export const levelOutfits: Record<string, string> = {
+  'Paris': 'Vampire Magician',
+  'Sapienza': 'Street Performer',
+  'Marrakesh': 'Fortune Teller',
+  'Bangkok': 'Exterminator',
+  'Colorado': 'Scarecrow',
+  'Hokkaido': 'Baseball Outfit',
+  'Miami': 'Florida Man',
+  'Santa Fortuna': 'The Shaman',
+  'Mumbai': 'Holy Man',
+  'Whittleton Creek': 'Arkian Robes',
+  'Isle of Sgail': 'Knight',
+  'New York': 'Bank Robber',
+  'Haven Island': 'Hazmat Suit',
+  'Dubai': 'Sheikh Al Ghazali',
+  'Dartmoor': 'Private Investigator',
+  'Berlin': 'Pizza Delivery Guy',
+  'Chongqing': 'Block Guard',
+  'Mendoza': 'Corvo Black',
+  'Carpathian Mountains': 'Elite Guard',
+  'Ambrose Island': 'Hippie',
+};
+
 export interface Weapon {
   name: string;
   notes: string;
 }
+
+export interface SafeCode {
+  label: string;
+  code: string;
+}
+
+export const safeCodes: Record<string, SafeCode[]> = {
+  'Dubai': [
+    { label: 'Security room safes', code: '6927' },
+    { label: 'Staff doors', code: '4706' },
+    { label: 'Penthouse safe', code: '7465' },
+  ],
+  'Dartmoor': [
+    { label: "Alexa's safe", code: '1975' },
+  ],
+  'Berlin': [
+    { label: "Hirschmueller's office", code: '1989' },
+  ],
+  'Chongqing': [
+    { label: 'ICA and laundromat doors', code: '0118' },
+    { label: "Hush's building doors and hatch", code: '2552' },
+  ],
+  'Mendoza': [
+    { label: 'Wine room', code: '1945' },
+    { label: 'Basement safe', code: '2006' },
+  ],
+  'Train': [
+    { label: 'Lab room door', code: '1979' },
+  ],
+};
 
 export interface LocationWeapons {
   location: string;
@@ -17,9 +70,9 @@ export const weaponsData: LocationWeapons[] = [
       { name: "SMG X2", notes: "Carried by various guards" },
       { name: "SMG X2 Covert", notes: "Carried by Noel Crest" },
       { name: "Folding Knife", notes: "Militia Cave, near the boat key & in a tree near the hippy/poison study guy" },
-      { name: "Assault Rile G1-4/C", notes: "Carried by some of the militia guards" },
+      { name: "Assault Rifle G1-4/C", notes: "Carried by some of the militia guards" },
       { name: "Oil Canister", notes: "under a workbench by the dock with the repairboat exit" },
-      { name: "Assaut Rifle A33", notes: "Carried by Pirates" },
+      { name: "Assault Rifle A33", notes: "Carried by Pirates" },
     ],
   },
   {
@@ -42,7 +95,7 @@ export const weaponsData: LocationWeapons[] = [
       { name: "Handgun 9R", notes: "Carried by various guards" },
       { name: "Modern Sedative Syringe", notes: "Wall cabinet behind the DJ booth." },
       { name: "Sawed-off Shotgun 12G", notes: "Under the desk of Hirschmueller's office, stand to the right of the chair and position your camera upwards" },
-      { name: "Assaut Rifle A33", notes: "Carried by some Bikers" },
+      { name: "Assault Rifle A33", notes: "Carried by some Bikers" },
       { name: "Tactical Shotgun 12G", notes: "Carried by some Bikers" },
     ],
   },
@@ -87,7 +140,7 @@ export const weaponsData: LocationWeapons[] = [
       { name: "Handgun 75R", notes: "Carried by various guards" },
       { name: "SMG DTI", notes: "Carried by Ingram's Bodyguard & Elite guards not carrying assault rifles" },
       { name: "Emetic Pills", notes: "In a locker in the room adjacent to the kitchen" },
-      { name: "Assaut Rifle A33 Covert", notes: "Carried by Penthouse Guards" },
+      { name: "Assault Rifle A33 Covert", notes: "Carried by Penthouse Guards" },
     ],
   },
   {
@@ -96,7 +149,7 @@ export const weaponsData: LocationWeapons[] = [
       { name: "Handgun 75R", notes: "Carried by various guards" },
       { name: "Handgun 75S", notes: "Carried by various guards, also in a weapon storage within the main surveillance building (security outpost)" },
       { name: "Baseball Bat", notes: "In the turtle hut" },
-      { name: "Assault Rile G1-4/C", notes: "Carried by some private security" },
+      { name: "Assault Rifle G1-4/C", notes: "Carried by some private security" },
       { name: "Assault Rifle G2", notes: "Gunrack in the secret office of the villa" },
       { name: "SMG HX-10", notes: "Gunrack in the secret office of the villa" },
       { name: "Modern Emetic Syringe", notes: "In the Med clinic (break the glass on the cabinet)" },
@@ -146,7 +199,7 @@ export const weaponsData: LocationWeapons[] = [
       { name: "HX-7", notes: "Carried by some of the street military guards" },
       { name: "Remote Explosive", notes: "In the central room of the underground tunnel & in School Armory" },
       { name: "Saber", notes: "Behind the counter of the shoe shop that leads to the underground tunnel & in Zaydan's office" },
-      { name: "Assaut Rifle A33", notes: "Carried by Military Soldiers" },
+      { name: "Assault Rifle A33", notes: "Carried by Military Soldiers" },
       { name: "Tactical Shotgun 12G", notes: "Carried by some Military" },
     ],
   },
@@ -222,7 +275,7 @@ export const weaponsData: LocationWeapons[] = [
       { name: "Claw Hammer", notes: "on the truck trailer nearest to the main entrance of the construction site (\"burial site\") by the river" },
       { name: "SMG X2", notes: "Carried by some guards - easiest is the two guards at the minivan exit near the shaman" },
       { name: "SMG HX-10", notes: "Carried by some Mansion guards" },
-      { name: "Assaut Rifle A33", notes: "Carried by some Mansion Guards (e.g. front entrance)" },
+      { name: "Assault Rifle A33", notes: "Carried by some Mansion Guards (e.g. front entrance)" },
       { name: "Tactical Shotgun 12G", notes: "Carried by various guards (Mansion confirmed)" },
     ],
   },
@@ -245,7 +298,7 @@ export const weaponsData: LocationWeapons[] = [
       { name: "Baseball Bat", notes: "Wilson Family's House, top-floor office" },
       { name: "SMG X2", notes: "Top floor Armory & some guards" },
       { name: "Emetic Pills", notes: "Basement of Helen West's house (Baker's house)" },
-      { name: "Assault Rile G1-4/C", notes: "Top floor Armory & Carried by a cassidy bodyguard" },
+      { name: "Assault Rifle G1-4/C", notes: "Top floor Armory & Carried by a cassidy bodyguard" },
       { name: "Handgun 9R", notes: "Carried by some guards & police" },
       { name: "Handgun 9S", notes: "Carried by various guards" },
       { name: "Handgun 9S Covert", notes: "Sometimes obtainable when you get a basement safe - the guard protecting it typically has one." },

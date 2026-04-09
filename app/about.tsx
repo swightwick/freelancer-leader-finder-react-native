@@ -9,6 +9,17 @@ import {
 } from 'react-native';
 import { Colors } from '@/constants/colors';
 
+const openURL = async (url: string) => {
+  try {
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    }
+  } catch {
+    // silently ignore — user's device couldn't open the URL
+  }
+};
+
 export default function AboutScreen() {
   return (
     <View style={styles.container}>
@@ -61,13 +72,13 @@ export default function AboutScreen() {
           <Text style={styles.sectionTitle}>Legal</Text>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => Linking.openURL('https://leaderfinder.samwightwick.co.uk/privacy')}
+            onPress={() => openURL('https://leaderfinder.samwightwick.co.uk/privacy')}
           >
             <Text style={styles.buttonText}>Privacy Policy</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => Linking.openURL('https://leaderfinder.samwightwick.co.uk/terms')}
+            onPress={() => openURL('https://leaderfinder.samwightwick.co.uk/terms')}
           >
             <Text style={styles.buttonText}>Terms of Use</Text>
           </TouchableOpacity>
@@ -94,14 +105,16 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 16,
+    fontWeight: '400',
     color: Colors.text,
     marginBottom: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   sectionText: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 14,
+    lineHeight: 22,
     color: Colors.textSecondary,
     marginBottom: 12,
   },
@@ -116,7 +129,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: '400',
     color: Colors.text,
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
 });

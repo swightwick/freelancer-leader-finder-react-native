@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Animated } from 'react-native';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Animated, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { ChevronRight } from 'lucide-react-native';
+import { ChevronRight, ChevronLeft, Lock, X } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
-import { weaponsData, Weapon } from '@/data/weapons';
+import { weaponsData, Weapon, safeCodes, SafeCode, levelOutfits } from '@/data/weapons';
 
 const locationGradients: Record<string, string[]> = {
   'ambrose-island': ['#071219', '#19273b', '#414c64'],
@@ -50,10 +51,35 @@ function WeaponItem({ weapon }: { weapon: Weapon }) {
   );
 }
 
+function SafeCodesModal({ location, codes, onClose }: { location: string; codes: SafeCode[]; onClose: () => void }) {
+  return (
+    <Modal visible animationType="fade" transparent onRequestClose={onClose}>
+      <View style={styles.modalBackdrop}>
+        <View style={styles.modalCard}>
+          <View style={styles.modalHeader}>
+            <Lock size={18} color={Colors.primary} />
+            <Text style={styles.modalTitle}>{location} — Safe Codes</Text>
+            <TouchableOpacity onPress={onClose} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+              <X size={20} color={Colors.text} />
+            </TouchableOpacity>
+          </View>
+          {codes.map((item) => (
+            <View key={item.label} style={styles.codeRow}>
+              <Text style={styles.codeLabel}>{item.label}</Text>
+              <Text style={styles.codeValue}>{item.code}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
 export default function ItemsScreen() {
+  const navigation = useNavigation();
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const [safeModalLocation, setSafeModalLocation] = useState<string | null>(null);
   const blackOverlayAnim = useRef(new Animated.Value(0)).current;
-  const mountAnim = useRef(new Animated.Value(0)).current;
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -62,65 +88,75 @@ export default function ItemsScreen() {
     };
   }, []);
 
-  useEffect(() => {
-    Animated.timing(mountAnim, { toValue: 1, duration: 250, useNativeDriver: true }).start();
-  }, []);
-
   const currentLocationData = weaponsData.find(loc => loc.location === selectedLocation);
 
-  const handleLocationSelect = (location: string) => {
+  const playTransitionAnimation = (callback: () => void) => {
     Animated.sequence([
-      Animated.timing(blackOverlayAnim, {
-        toValue: 1,
-        duration: 150,
-        useNativeDriver: true,
-      }),
-      Animated.timing(blackOverlayAnim, {
-        toValue: 0,
-        duration: 150,
-        useNativeDriver: true,
-      }),
+      Animated.timing(blackOverlayAnim, { toValue: 1, duration: 150, useNativeDriver: true }),
+      Animated.timing(blackOverlayAnim, { toValue: 0, duration: 150, useNativeDriver: true }),
     ]).start();
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setSelectedLocation(location);
-    }, 150);
+    timeoutRef.current = setTimeout(callback, 150);
   };
 
-  const handleBackToLocations = () => {
-    Animated.sequence([
-      Animated.timing(blackOverlayAnim, {
-        toValue: 1,
-        duration: 150,
-        useNativeDriver: true,
-      }),
-      Animated.timing(blackOverlayAnim, {
-        toValue: 0,
-        duration: 150,
-        useNativeDriver: true,
-      }),
-    ]).start();
+  const handleLocationSelect = useCallback((location: string) => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={handleBackToLocations}
+          style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 12, paddingBottom: 10 }}
+          activeOpacity={0.7}
+        >
+          <ChevronLeft size={22} color={Colors.text} />
+          <Text style={{ color: Colors.text, fontSize: 16, fontWeight: '500' }}>Back</Text>
+        </TouchableOpacity>
+      ),
+    });
+    playTransitionAnimation(() => setSelectedLocation(location));
+  }, [navigation]);
 
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setSelectedLocation(null);
-    }, 150);
-  };
+  const handleBackToLocations = useCallback(() => {
+    navigation.setOptions({ headerLeft: undefined });
+    playTransitionAnimation(() => setSelectedLocation(null));
+  }, [navigation]);
+
+  const renderLocationItem = useCallback(({ item }: { item: typeof weaponsData[0] }) => {
+    const gradient = getLocationGradient(item.location);
+    return (
+      <TouchableOpacity
+        style={styles.locationCard}
+        onPress={() => handleLocationSelect(item.location)}
+        activeOpacity={0.7}
+      >
+        <LinearGradient
+          colors={gradient as [string, string, string]}
+          style={styles.locationGradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
+          <Text style={styles.locationName}>{item.location}</Text>
+          <View style={styles.locationCardRight}>
+            <View style={styles.weaponCountBadge}>
+              <Text style={styles.weaponCount}>{item.weapons.length}</Text>
+            </View>
+            <ChevronRight size={20} color="rgba(255,255,255,0.7)" />
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }, [handleLocationSelect]);
 
   if (selectedLocation && currentLocationData) {
     const gradient = getLocationGradient(selectedLocation);
+    const locationSafeCodes = safeCodes[selectedLocation];
 
     return (
-      <Animated.View style={[styles.container, { opacity: mountAnim }]}>
+      <View style={styles.container}>
         <Animated.View
           pointerEvents="none"
           style={[styles.blackOverlay, { opacity: blackOverlayAnim }]}
         />
-        <TouchableOpacity style={styles.backButton} onPress={handleBackToLocations} activeOpacity={0.7}>
-          <Text style={styles.backButtonText}>← Back to Locations</Text>
-        </TouchableOpacity>
-
         <LinearGradient
           colors={gradient as [string, string, string]}
           style={styles.locationHeaderGradient}
@@ -128,24 +164,49 @@ export default function ItemsScreen() {
           end={{ x: 1, y: 1 }}
         >
           <Text style={styles.locationHeaderTitle}>{selectedLocation}</Text>
+          {locationSafeCodes && (
+            <TouchableOpacity
+              onPress={() => setSafeModalLocation(selectedLocation)}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              activeOpacity={0.7}
+            >
+              <Lock size={22} color="rgba(255,255,255,0.85)" />
+            </TouchableOpacity>
+          )}
         </LinearGradient>
 
         <ScrollView style={styles.fullPageScroll} showsVerticalScrollIndicator={false}>
           <View style={styles.weaponList}>
-            {currentLocationData.weapons.map((weapon) => (
+            {currentLocationData.weapons.map((weapon, index) => (
               <WeaponItem
-                key={weapon.name}
+                key={`${selectedLocation}-${index}`}
                 weapon={weapon}
               />
             ))}
           </View>
+          {levelOutfits[selectedLocation] && (
+            <View style={styles.outfitCard}>
+              <Text style={styles.outfitLabel}>Unique Level Outfit</Text>
+              <View style={styles.outfitValueContainer}>
+                <Text style={styles.outfitName}>{levelOutfits[selectedLocation]}</Text>
+              </View>
+            </View>
+          )}
         </ScrollView>
-      </Animated.View>
+
+        {safeModalLocation && locationSafeCodes && (
+          <SafeCodesModal
+            location={safeModalLocation}
+            codes={locationSafeCodes}
+            onClose={() => setSafeModalLocation(null)}
+          />
+        )}
+      </View>
     );
   }
 
   return (
-    <Animated.View style={[styles.container, { opacity: mountAnim }]}>
+    <View style={styles.container}>
       <Animated.View
         pointerEvents="none"
         style={[styles.blackOverlay, { opacity: blackOverlayAnim }]}
@@ -153,33 +214,11 @@ export default function ItemsScreen() {
       <FlatList
           data={weaponsData}
           keyExtractor={(item) => item.location}
-          renderItem={({ item }) => {
-            const gradient = getLocationGradient(item.location);
-            return (
-              <TouchableOpacity
-                style={styles.locationCard}
-                onPress={() => handleLocationSelect(item.location)}
-                activeOpacity={0.7}
-              >
-                <LinearGradient
-                  colors={gradient as [string, string, string]}
-                  style={styles.locationGradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                >
-                  <Text style={styles.locationName}>{item.location}</Text>
-                  <View style={styles.locationCardRight}>
-                    <Text style={styles.weaponCount}>{item.weapons.length} weapons</Text>
-                    <ChevronRight size={20} color="rgba(255,255,255,0.7)" />
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
-            );
-          }}
+          renderItem={renderLocationItem}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         />
-    </Animated.View>
+    </View>
   );
 }
 
@@ -189,12 +228,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   listContent: {
-    padding: 16,
+    flexGrow: 1,
+    paddingTop: 5,
   },
   locationCard: {
-    borderRadius: 12,
-    marginBottom: 10,
     overflow: 'hidden',
+    marginBottom: 5,
   },
   locationGradient: {
     flexDirection: 'row',
@@ -204,61 +243,68 @@ const styles = StyleSheet.create({
   },
   locationName: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '400',
     color: '#ffffff',
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   locationCardRight: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
   },
+  weaponCountBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   weaponCount: {
     fontSize: 13,
-    color: 'rgba(255,255,255,0.7)',
-    fontWeight: '500',
-  },
-  backButton: {
-    padding: 16,
-    backgroundColor: Colors.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  backButtonText: {
-    fontSize: 16,
-    color: Colors.text,
-    fontWeight: '600',
+    color: 'rgba(255,255,255,0.9)',
+    fontWeight: '700',
   },
   locationHeaderGradient: {
     width: '100%',
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   locationHeaderTitle: {
-    fontSize: 28,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '400',
     color: '#ffffff',
+    flex: 1,
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   fullPageScroll: {
     flex: 1,
   },
   weaponList: {
     marginTop: 16,
-    paddingBottom: 20,
+    paddingBottom: 0,
   },
   weaponItem: {
     backgroundColor: Colors.surface,
     padding: 16,
     marginHorizontal: 16,
-    marginBottom: 8,
+    marginBottom: 16,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: Colors.border,
   },
   weaponName: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '300',
     color: Colors.text,
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   weaponNotesContainer: {
     marginTop: 12,
@@ -271,6 +317,33 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: Colors.textSecondary,
   },
+  outfitCard: {
+    backgroundColor: Colors.surface,
+    padding: 16,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  outfitLabel: {
+    fontSize: 16,
+    fontWeight: '300',
+    color: Colors.text,
+    textTransform: 'uppercase',
+    letterSpacing: 3,
+  },
+  outfitValueContainer: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+  },
+  outfitName: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: Colors.textSecondary,
+  },
   blackOverlay: {
     position: 'absolute',
     top: 0,
@@ -279,5 +352,54 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: '#000000',
     zIndex: 1000,
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  modalCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    width: '100%',
+    padding: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 16,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  modalTitle: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.text,
+  },
+  codeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  codeLabel: {
+    flex: 1,
+    fontSize: 14,
+    color: Colors.textSecondary,
+    marginRight: 12,
+  },
+  codeValue: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: Colors.text,
+    letterSpacing: 4,
+    fontVariant: ['tabular-nums'],
   },
 });

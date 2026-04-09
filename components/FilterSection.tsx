@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
+
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental?.(true);
+}
 import { useLeaders } from '@/hooks/leader-store';
 import { Filters } from '@/types/leader';
 import { Colors } from '@/constants/colors';
-import { Circle, ChevronDown, ChevronUp, Trash2 } from 'lucide-react-native';
+import { Circle, Trash2, Eye, EyeOff } from 'lucide-react-native';
 import { hairColorOptions } from '@/constants/hairColors';
 import { attributeIcons, attributeNames } from '@/constants/attributeIcons';
 
@@ -19,6 +23,11 @@ interface FilterSectionProps {
 
 export default function FilterSection({ onClearDismissed }: FilterSectionProps) {
   const { filters, updateFilter, clearFilters, filtersCollapsed, toggleFiltersCollapsed } = useLeaders();
+
+  const handleToggleCollapsed = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    toggleFiltersCollapsed();
+  };
 
   const renderToggleFilter = (
     key: keyof Omit<Filters, 'hair'>,
@@ -57,24 +66,18 @@ export default function FilterSection({ onClearDismissed }: FilterSectionProps) 
 
   return (
     <View style={[styles.container, filtersCollapsed && styles.containerCollapsed]}>
-      <TouchableOpacity
-        style={[styles.header, filtersCollapsed && styles.headerCollapsed]}
-        onPress={toggleFiltersCollapsed}
-        activeOpacity={0.7}
-      >
-        <View style={styles.titleRow}>
-          <Text style={styles.title}>Filters</Text>
-          {filtersCollapsed ? (
-            <ChevronDown size={20} color={Colors.text} />
-          ) : (
-            <ChevronUp size={20} color={Colors.text} />
-          )}
+      <View style={[styles.header, filtersCollapsed && styles.headerCollapsed]}>
+        <Text style={styles.title}>Features</Text>
+        <View style={styles.headerActions}>
+          <TouchableOpacity onPress={handleToggleCollapsed} style={styles.clearButton} activeOpacity={0.7}>
+            {filtersCollapsed ? <Eye size={16} color={Colors.textSecondary} /> : <EyeOff size={16} color={Colors.textSecondary} />}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => { clearFilters(); onClearDismissed?.(); }} style={styles.clearButton} activeOpacity={0.7}>
+            <Trash2 size={14} color={Colors.textSecondary} />
+            <Text style={styles.clearButtonText}>Clear All</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => { clearFilters(); onClearDismissed?.(); }} style={styles.clearButton} activeOpacity={0.7}>
-          <Trash2 size={14} color={Colors.textSecondary} />
-          <Text style={styles.clearButtonText}>Clear All</Text>
-        </TouchableOpacity>
-      </TouchableOpacity>
+      </View>
 
       {!filtersCollapsed && (
         <>
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    marginBottom: 20,
+    marginBottom: 8,
   },
   headerCollapsed: {
     marginBottom: 8,
@@ -149,10 +152,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   title: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '600',
     color: Colors.text,
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   clearButton: {
     flexDirection: 'row',
@@ -210,6 +220,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.text,
     marginBottom: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 3,
   },
   hairGrid: {
     flexDirection: 'row',
