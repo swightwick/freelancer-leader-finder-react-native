@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import { Package, Search, Info } from 'lucide-react-native';
 import { Colors } from '@/constants/colors';
 
@@ -26,7 +27,10 @@ export default function TabBar({ state, navigation }: Props) {
             key={tab.name}
             style={styles.tab}
             onPress={() => {
-              if (!isActive) navigation.navigate(tab.name);
+              if (!isActive) {
+                Haptics.selectionAsync();
+                navigation.navigate(tab.name);
+              }
             }}
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive }}

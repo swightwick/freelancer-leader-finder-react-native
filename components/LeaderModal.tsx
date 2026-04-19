@@ -17,6 +17,7 @@ import { Leader } from '@/types/leader';
 import { Colors } from '@/constants/colors';
 import { attributeIcons, attributeNames } from '@/constants/attributeIcons';
 import { hairColors } from '@/constants/hairColors';
+import { disabledStyles } from '@/constants/sharedStyles';
 
 interface LeaderModalProps {
   leaders: Leader[];
@@ -36,12 +37,12 @@ function LeaderPage({ leader, width, isDisabled }: { leader: Leader; width: numb
       <View style={[styles.imageContainer, { width }]}>
         <Image
           source={leader.image}
-          style={[styles.image, isDisabled && styles.imageDisabled]}
+          style={[styles.image, isDisabled && disabledStyles.imageDisabled]}
           contentFit="cover"
         />
-        {isDisabled && <View style={styles.greyscaleOverlay} />}
+        {isDisabled && <View style={disabledStyles.greyscaleOverlay} />}
         {isDisabled && (
-          <View style={styles.disabledOverlay}>
+          <View style={disabledStyles.disabledOverlay}>
             <X size={width * 0.4} color="white" strokeWidth={2} />
           </View>
         )}
@@ -74,7 +75,7 @@ function LeaderPage({ leader, width, isDisabled }: { leader: Leader; width: numb
         styles.hairPill,
         { backgroundColor: hairColors[leader.attributes.hair as keyof typeof hairColors] || Colors.textTertiary },
       ]}>
-        <Text style={[styles.hairText, (leader.attributes.hair === 'blonde' || leader.attributes.hair === 'bald') && { color: '#000000' }]}>
+        <Text style={[styles.hairText, (leader.attributes.hair === 'blonde' || leader.attributes.hair === 'bald') && { color: Colors.textOnLight }]}>
           Hair: {leader.attributes.hair}
         </Text>
       </View>
@@ -111,6 +112,7 @@ export default function LeaderModal({ leaders, initialIndex, visible, onClose, d
 
   if (leaders.length === 0) return null;
 
+  const safeInitialIndex = Math.min(initialIndex, leaders.length - 1);
   const currentLeader = leaders[currentIndex] ?? leaders[0];
 
   return (
@@ -120,7 +122,7 @@ export default function LeaderModal({ leaders, initialIndex, visible, onClose, d
       presentationStyle="pageSheet"
       onRequestClose={onClose}
     >
-      <LinearGradient colors={['#720110', '#000000']} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }}>
+      <LinearGradient colors={[Colors.primary, Colors.shadow]} style={styles.container} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }}>
         <View style={styles.header}>
           <View style={styles.headerLeft} />
           <Text style={styles.headerTitle} numberOfLines={1}>{currentLeader.name}</Text>
@@ -140,7 +142,7 @@ export default function LeaderModal({ leaders, initialIndex, visible, onClose, d
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={viewabilityConfig}
           getItemLayout={(_, index) => ({ length: width, offset: width * index, index })}
-          initialScrollIndex={initialIndex}
+          initialScrollIndex={safeInitialIndex}
         />
       </LinearGradient>
     </Modal>
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
-    backgroundColor: '#000000',
+    backgroundColor: Colors.shadow,
   },
   headerLeft: {
     width: 24,
@@ -191,19 +193,6 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-  },
-  imageDisabled: {
-    opacity: 0.5,
-  },
-  greyscaleOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(180,0,0,0.3)',
-  },
-  disabledOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   hairPill: {
     paddingHorizontal: 16,

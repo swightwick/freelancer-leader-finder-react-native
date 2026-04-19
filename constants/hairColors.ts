@@ -10,7 +10,7 @@ export const hairColors: Record<string, string> = {
 export const hairColorOptions = [
   { label: 'Any', value: 'any' as const },
   { label: 'Black', value: 'black' as const, color: '#1a1a1a' },
-  { label: 'Blonde', value: 'blonde' as const, color: '#f4d03f' },
+  { label: 'Blonde', value: 'blonde' as const, color: '#f0c020' },
   { label: 'Brown', value: 'brown' as const, color: '#8b4513' },
   { label: 'Gray', value: 'gray' as const, color: '#808080' },
   { label: 'Red', value: 'red' as const, color: '#dc143c' },

@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, LayoutAnimation, Platform, UIManager } from 'react-native';
-
-if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental?.(true);
-}
+import * as Haptics from 'expo-haptics';
 import { useLeaders } from '@/hooks/leader-store';
 import { Filters } from '@/types/leader';
 import { Colors } from '@/constants/colors';
 import { Circle, Trash2, Eye, EyeOff } from 'lucide-react-native';
 import { hairColorOptions } from '@/constants/hairColors';
 import { attributeIcons, attributeNames } from '@/constants/attributeIcons';
+
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental?.(true);
+}
 
 const attributeFilters = (Object.keys(attributeIcons) as Array<keyof typeof attributeIcons>).map(key => ({
   key,
@@ -46,6 +47,7 @@ export default function FilterSection({ onClearDismissed }: FilterSectionProps) 
           isActive && styles.filterToggleHas,
         ]}
         onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           updateFilter(key, !value);
         }}
         activeOpacity={0.7}
@@ -66,13 +68,13 @@ export default function FilterSection({ onClearDismissed }: FilterSectionProps) 
 
   return (
     <View style={[styles.container, filtersCollapsed && styles.containerCollapsed]}>
-      <View style={[styles.header, filtersCollapsed && styles.headerCollapsed]}>
+      <View style={styles.header}>
         <Text style={styles.title}>Features</Text>
         <View style={styles.headerActions}>
           <TouchableOpacity onPress={handleToggleCollapsed} style={styles.clearButton} activeOpacity={0.7}>
             {filtersCollapsed ? <Eye size={16} color={Colors.textSecondary} /> : <EyeOff size={16} color={Colors.textSecondary} />}
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { clearFilters(); onClearDismissed?.(); }} style={styles.clearButton} activeOpacity={0.7}>
+          <TouchableOpacity onPress={() => { Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success); clearFilters(); onClearDismissed?.(); }} style={styles.clearButton} activeOpacity={0.7}>
             <Trash2 size={14} color={Colors.textSecondary} />
             <Text style={styles.clearButtonText}>Clear All</Text>
           </TouchableOpacity>
@@ -97,7 +99,10 @@ export default function FilterSection({ onClearDismissed }: FilterSectionProps) 
                     styles.hairButton,
                     filters.hair === option.value && styles.hairButtonActive,
                   ]}
-                  onPress={() => updateFilter('hair', option.value)}
+                  onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    updateFilter('hair', option.value);
+                  }}
                   activeOpacity={0.7}
                 >
                   {option.value !== 'any' && option.value !== 'bald' && (
@@ -143,14 +148,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     marginBottom: 8,
-  },
-  headerCollapsed: {
-    marginBottom: 8,
-  },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
   },
   headerActions: {
     flexDirection: 'row',
@@ -199,7 +196,6 @@ const styles = StyleSheet.create({
   },
   filterToggleActive: {
     borderColor: Colors.primary,
-    backgroundColor: Colors.surface,
   },
   filterToggleHas: {
     backgroundColor: Colors.primary + '15',

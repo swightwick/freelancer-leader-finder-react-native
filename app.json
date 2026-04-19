@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Freelancer Leader Finder",
-    "slug": "freelancer-leader-finder",
+    "slug": "leader-finder",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.rork.freelancer-leader-finder",
+      "bundleIdentifier": "com.samwightwick.leaderfinder",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "app.rork.freelancer_leader_finder"
+      "package": "com.samwightwick.leaderfinder"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -37,8 +37,7 @@
           "origin": "https://rork.com/"
         }
       ],
-      "expo-font",
-      "expo-web-browser"
+      "expo-dev-client"
     ],
     "experiments": {
       "typedRoutes": true
@@ -48,8 +47,9 @@
         "origin": "https://rork.com/"
       },
       "eas": {
-        "projectId": "24e97738-0729-422c-928b-8b63035440ce"
+        "projectId": "e04bb967-1c5b-486d-9662-fa66d2c6a185"
       }
-    }
+    },
+    "owner": "sjw87"
   }
 }

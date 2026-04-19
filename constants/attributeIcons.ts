@@ -1,5 +1,4 @@
-import { Glasses } from 'lucide-react-native';
-import { Gem } from 'lucide-react-native';
+import { Glasses, Gem } from 'lucide-react-native';
 import { Ear, CowboyHat, Skull } from 'phosphor-react-native';
 
 export const attributeIcons = {

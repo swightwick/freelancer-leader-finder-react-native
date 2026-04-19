@@ -1,11 +1,10 @@
 export const Colors = {
-  // Dark theme colors
-  background: '#0a0a0a',
   surface: '#111215',
   surfaceSecondary: '#2a2a2a',
   text: '#ffffff',
   textSecondary: '#a0a0a0',
   textTertiary: '#666666',
+  textOnLight: '#000000',
   primary: '#720110',
   iconPrimary: '#AB0110',
   border: '#333333',

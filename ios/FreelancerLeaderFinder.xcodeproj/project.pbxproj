@@ -259,7 +259,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "app.rork.freelancer-leader-finder";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.samwightwick.leaderfinder";
 				PRODUCT_NAME = "FreelancerLeaderFinder";
 				SWIFT_OBJC_BRIDGING_HEADER = "FreelancerLeaderFinder/FreelancerLeaderFinder-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -288,7 +288,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "app.rork.freelancer-leader-finder";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.samwightwick.leaderfinder";
 				PRODUCT_NAME = "FreelancerLeaderFinder";
 				SWIFT_OBJC_BRIDGING_HEADER = "FreelancerLeaderFinder/FreelancerLeaderFinder-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

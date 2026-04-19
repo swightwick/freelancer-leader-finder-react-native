@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
+import * as Haptics from "expo-haptics";
 import React, { useEffect, useRef } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StyleSheet, Animated } from "react-native";
@@ -21,6 +22,7 @@ function RootLayoutNav() {
   const overlayAnim = useRef(new Animated.Value(0)).current;
 
   const triggerTabFade = () => {
+    Haptics.selectionAsync();
     overlayAnim.stopAnimation();
     overlayAnim.setValue(1);
     Animated.timing(overlayAnim, {
@@ -34,7 +36,7 @@ function RootLayoutNav() {
     <LeaderContext>
       <StatusBar style="light" />
       <LinearGradient
-        colors={['#720110', '#000000']}
+        colors={[Colors.primary, Colors.shadow]}
         style={styles.container}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
@@ -44,7 +46,6 @@ function RootLayoutNav() {
           tabBar={(props) => <TabBar {...props} />}
           screenListeners={{ tabPress: triggerTabFade }}
           screenOptions={{
-            lazy: false,
             sceneStyle: { backgroundColor: 'transparent' },
             headerStyle: { backgroundColor: Colors.surface },
             headerTintColor: Colors.text,
@@ -58,9 +59,9 @@ function RootLayoutNav() {
           }}
         >
           <Tabs.Screen name="index" options={{ href: null }} />
-          <Tabs.Screen name="finder" options={{ headerTitle: 'LEADER FINDER', lazy: true }} />
-          <Tabs.Screen name="items" options={{ headerTitle: 'ITEMS' }} />
-          <Tabs.Screen name="about" options={{ title: 'ABOUT', lazy: true }} />
+          <Tabs.Screen name="finder" options={{ headerTitle: 'LEADER FINDER' }} />
+          <Tabs.Screen name="items" options={{ headerTitle: 'ITEMS', lazy: false }} />
+          <Tabs.Screen name="about" options={{ title: 'ABOUT' }} />
         </Tabs>
         </ThemeProvider>
         <Animated.View
@@ -87,11 +88,11 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: Colors.shadow,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#000000',
+    backgroundColor: Colors.shadow,
     zIndex: 999,
   },
 });

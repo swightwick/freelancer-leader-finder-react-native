@@ -17,7 +17,6 @@ export const levelOutfits: Record<string, string> = {
   'Berlin': 'Pizza Delivery Guy',
   'Chongqing': 'Block Guard',
   'Mendoza': 'Corvo Black',
-  'Carpathian Mountains': 'Elite Guard',
   'Ambrose Island': 'Hippie',
 };
 
@@ -50,9 +49,6 @@ export const safeCodes: Record<string, SafeCode[]> = {
   'Mendoza': [
     { label: 'Wine room', code: '1945' },
     { label: 'Basement safe', code: '2006' },
-  ],
-  'Train': [
-    { label: 'Lab room door', code: '1979' },
   ],
 };
 

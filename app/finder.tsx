@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import { useLeaders } from '@/hooks/leader-store';
 import LeaderCard from '@/components/LeaderCard';
 import FilterSection from '@/components/FilterSection';
@@ -14,6 +15,8 @@ export default function LeaderFinderScreen() {
   const [dismissedLeaders, setDismissedLeaders] = useState<Set<string>>(new Set());
   const animationKey = useMemo(() => JSON.stringify(filters), [filters]);
   const isClearingRef = useRef(false);
+  const lastHapticRowRef = useRef(0);
+  const CARD_HEIGHT = 220; // approximate row height in px
 
   useEffect(() => {
     isClearingRef.current = false;
@@ -40,9 +43,10 @@ export default function LeaderFinderScreen() {
       leader={item}
       onPress={() => { setSelectedLeaderIndex(index); setModalVisible(true); }}
       onLongPress={handleLeaderLongPress}
-      staggerDelay={isClearingRef.current ? 0 : Math.min(index, 3) * 80}
+      staggerDelay={isClearingRef.current || index >= 4 ? 0 : index * 80}
       animationKey={animationKey}
       isDisabled={dismissedLeaders.has(item.name)}
+      skipFade={isClearingRef.current}
     />
   );
 
@@ -79,9 +83,17 @@ export default function LeaderFinderScreen() {
         ListHeaderComponent={renderHeader}
         ListEmptyComponent={renderEmpty}
         showsVerticalScrollIndicator={false}
-        initialNumToRender={100}
-        maxToRenderPerBatch={100}
+        initialNumToRender={72}
+        maxToRenderPerBatch={72}
         windowSize={21}
+        onScroll={(e) => {
+          const row = Math.floor(e.nativeEvent.contentOffset.y / CARD_HEIGHT);
+          if (row !== lastHapticRowRef.current) {
+            lastHapticRowRef.current = row;
+            Haptics.selectionAsync();
+          }
+        }}
+        scrollEventThrottle={16}
       />
       <LeaderModal
         leaders={leaders}

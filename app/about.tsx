@@ -24,7 +24,6 @@ export default function AboutScreen() {
   return (
     <View style={styles.container}>
       <ScrollView
-        style={styles.content}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
       >
@@ -93,12 +92,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'transparent',
   },
-  content: {
-    flex: 1,
-  },
   contentContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingTop: 20,
     paddingBottom: 40,
   },
   section: {

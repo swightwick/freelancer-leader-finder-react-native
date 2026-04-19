@@ -16,7 +16,6 @@ const locationGradients: Record<string, string[]> = {
   'dartmoor': ['#191714', '#332f30', '#46454a'],
   'dubai': ['#6e5c52', '#b7977f', '#ebcca8'],
   'haven': ['#3c5a63', '#7e908d', '#b3ccd6'],
-  'hawkes-bay': ['#372d30', '#6e605f', '#b5b0a7'],
   'hokkido': ['#2c3745', '#556871', '#abb3aa'],
   'marrakesh': ['#3e3e38', '#877656', '#d6bc86'],
   'mendoza': ['#231d14', '#60514d', '#ad917c'],
@@ -88,17 +87,24 @@ export default function ItemsScreen() {
     };
   }, []);
 
+  const TRANSITION_DURATION = 150;
+
   const currentLocationData = weaponsData.find(loc => loc.location === selectedLocation);
 
-  const playTransitionAnimation = (callback: () => void) => {
+  const playTransitionAnimation = useCallback((callback: () => void) => {
     Animated.sequence([
-      Animated.timing(blackOverlayAnim, { toValue: 1, duration: 150, useNativeDriver: true }),
-      Animated.timing(blackOverlayAnim, { toValue: 0, duration: 150, useNativeDriver: true }),
+      Animated.timing(blackOverlayAnim, { toValue: 1, duration: TRANSITION_DURATION, useNativeDriver: true }),
+      Animated.timing(blackOverlayAnim, { toValue: 0, duration: TRANSITION_DURATION, useNativeDriver: true }),
     ]).start();
 
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(callback, 150);
-  };
+    timeoutRef.current = setTimeout(callback, TRANSITION_DURATION);
+  }, [blackOverlayAnim]);
+
+  const handleBackToLocations = useCallback(() => {
+    navigation.setOptions({ headerLeft: undefined });
+    playTransitionAnimation(() => setSelectedLocation(null));
+  }, [navigation, playTransitionAnimation]);
 
   const handleLocationSelect = useCallback((location: string) => {
     navigation.setOptions({
@@ -114,12 +120,7 @@ export default function ItemsScreen() {
       ),
     });
     playTransitionAnimation(() => setSelectedLocation(location));
-  }, [navigation]);
-
-  const handleBackToLocations = useCallback(() => {
-    navigation.setOptions({ headerLeft: undefined });
-    playTransitionAnimation(() => setSelectedLocation(null));
-  }, [navigation]);
+  }, [navigation, handleBackToLocations, playTransitionAnimation]);
 
   const renderLocationItem = useCallback(({ item }: { item: typeof weaponsData[0] }) => {
     const gradient = getLocationGradient(item.location);

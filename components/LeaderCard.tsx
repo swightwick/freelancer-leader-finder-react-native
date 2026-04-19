@@ -6,6 +6,7 @@ import { X } from 'lucide-react-native';
 import { Leader } from '@/types/leader';
 import { Colors } from '@/constants/colors';
 import { attributeIcons } from '@/constants/attributeIcons';
+import { disabledStyles } from '@/constants/sharedStyles';
 
 interface LeaderCardProps {
   leader: Leader;
@@ -15,20 +16,22 @@ interface LeaderCardProps {
   animationKey?: string;
   fullWidth?: boolean;
   isDisabled?: boolean;
+  skipFade?: boolean;
 }
 
-export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay = 0, animationKey, fullWidth = false, isDisabled = false }: LeaderCardProps) {
+export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay = 0, animationKey, fullWidth = false, isDisabled = false, skipFade = false }: LeaderCardProps) {
   const { width } = useWindowDimensions();
   const cardWidth = fullWidth ? width - 32 : (width - 48) / 2;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   // Reset to 0 before paint so there's no flash
   useLayoutEffect(() => {
-    fadeAnim.setValue(0);
-  }, [animationKey]);
+    if (!skipFade) fadeAnim.setValue(0);
+  }, [animationKey, skipFade]);
 
   // Start staggered fade after reset
   useEffect(() => {
+    if (skipFade) return;
     const timer = setTimeout(() => {
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -40,7 +43,7 @@ export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay 
       clearTimeout(timer);
       fadeAnim.stopAnimation();
     };
-  }, [animationKey]);
+  }, [animationKey, staggerDelay, skipFade]);
 
   return (
     <Animated.View style={{ opacity: fadeAnim }}>
@@ -57,14 +60,14 @@ export default function LeaderCard({ leader, onPress, onLongPress, staggerDelay 
         <View style={[styles.imageContainer, { height: cardWidth * 0.8 }]}>
           <Image
             source={leader.image}
-            style={[styles.image, isDisabled && styles.imageDisabled]}
+            style={[styles.image, isDisabled && disabledStyles.imageDisabled]}
             contentFit="cover"
             contentPosition={{ top: '5%' }}
             accessibilityLabel={`Portrait of ${leader.name}`}
           />
-          {isDisabled && <View style={styles.greyscaleOverlay} />}
+          {isDisabled && <View style={disabledStyles.greyscaleOverlay} />}
           {isDisabled && (
-            <View style={[styles.disabledOverlay, { opacity: 0.8 }]}>
+            <View style={[disabledStyles.disabledOverlay, { opacity: 0.8 }]}>
               <X size={cardWidth * 0.5} color="white" strokeWidth={2} />
             </View>
           )}
@@ -142,19 +145,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'capitalize',
     fontWeight: '600',
-  },
-  imageDisabled: {
-    opacity: 0.5,
-  },
-  greyscaleOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(180,0,0,0.3)',
-  },
-  disabledOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   contentDisabled: {
     opacity: 0.45,
