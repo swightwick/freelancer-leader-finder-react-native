@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Modal,
   TouchableOpacity,
-  ScrollView,
   FlatList,
   useWindowDimensions,
   ViewToken,
@@ -29,10 +28,8 @@ interface LeaderModalProps {
 
 function LeaderPage({ leader, width, isDisabled }: { leader: Leader; width: number; isDisabled: boolean }) {
   return (
-    <ScrollView
-      style={{ width }}
-      contentContainerStyle={styles.contentContainer}
-      showsVerticalScrollIndicator={false}
+    <View
+      style={[{ width }, styles.contentContainer]}
     >
       <View style={[styles.imageContainer, { width }]}>
         <Image
@@ -79,7 +76,7 @@ function LeaderPage({ leader, width, isDisabled }: { leader: Leader; width: numb
           Hair: {leader.attributes.hair}
         </Text>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

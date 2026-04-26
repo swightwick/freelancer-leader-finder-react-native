@@ -2,9 +2,9 @@ import { Tabs } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import * as Haptics from "expo-haptics";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { StyleSheet, Animated } from "react-native";
+import { StyleSheet, Animated, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { ThemeProvider, DarkTheme } from "@react-navigation/native";
 import { LeaderContext } from "@/hooks/leader-store";
@@ -17,6 +17,28 @@ const theme = {
 };
 
 SplashScreen.preventAutoHideAsync();
+
+function JsSplash({ onDone }: { onDone: () => void }) {
+  const opacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }).start(onDone);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Animated.View style={[StyleSheet.absoluteFill, styles.splash, { opacity }]} pointerEvents="none">
+      <Text style={styles.splashTitle}>LEADER</Text>
+      <Text style={styles.splashTitle}>FINDER</Text>
+    </Animated.View>
+  );
+}
 
 function RootLayoutNav() {
   const overlayAnim = useRef(new Animated.Value(0)).current;
@@ -74,13 +96,22 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
-  useEffect(() => {
-    SplashScreen.hideAsync();
-  }, []);
+  const [appReady, setAppReady] = useState(false);
+  const [splashDone, setSplashDone] = useState(false);
+
+  const onLayout = useCallback(async () => {
+    if (!appReady) {
+      await SplashScreen.hideAsync();
+      setAppReady(true);
+    }
+  }, [appReady]);
 
   return (
-    <GestureHandlerRootView style={styles.container}>
+    <GestureHandlerRootView style={styles.container} onLayout={onLayout}>
       <RootLayoutNav />
+      {appReady && !splashDone && (
+        <JsSplash onDone={() => setSplashDone(true)} />
+      )}
     </GestureHandlerRootView>
   );
 }
@@ -94,5 +125,17 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: Colors.shadow,
     zIndex: 999,
+  },
+  splash: {
+    backgroundColor: Colors.shadow,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+  },
+  splashTitle: {
+    color: Colors.text,
+    fontSize: 48,
+    fontWeight: '700',
+    letterSpacing: 12,
   },
 });

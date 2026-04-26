@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Freelancer Leader Finder",
+    "name": "Leader Finder",
     "slug": "leader-finder",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,8 +9,6 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
     "ios": {
